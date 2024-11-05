@@ -1,0 +1,10 @@
+deployment:
+  storageClass: nfs-client
+  labels: []
+  replicas: 3
+  appName: "prep-dev"
+  hostnames: 
+    - prep-dev.nuri-sw.com
+  image:
+    name: iamyassin08/prep
+    tag: latest

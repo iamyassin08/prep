@@ -1,0 +1,1535 @@
+definitions:
+  big.Int:
+    type: object
+  db.Category:
+    properties:
+      backgroundUrl:
+        $ref: '#/definitions/pgtype.Text'
+      bannerUrl:
+        $ref: '#/definitions/pgtype.Text'
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      id:
+        type: integer
+      name:
+        type: string
+      parentID:
+        $ref: '#/definitions/pgtype.Int4'
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  db.CategoryAttribute:
+    properties:
+      attributeTypeID:
+        $ref: '#/definitions/pgtype.Int4'
+      categoryID:
+        $ref: '#/definitions/pgtype.Int4'
+      enumValues:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      isRequired:
+        $ref: '#/definitions/pgtype.Bool'
+      name:
+        type: string
+    type: object
+  db.CreateCategoryAttributeParams:
+    properties:
+      attributeTypeID:
+        $ref: '#/definitions/pgtype.Int4'
+      categoryID:
+        $ref: '#/definitions/pgtype.Int4'
+      enumValues:
+        items:
+          type: string
+        type: array
+      isRequired:
+        $ref: '#/definitions/pgtype.Bool'
+      name:
+        type: string
+    type: object
+  db.CreateProductParams:
+    properties:
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      discountPrice:
+        $ref: '#/definitions/pgtype.Numeric'
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      quantity:
+        type: integer
+      regularPrice:
+        $ref: '#/definitions/pgtype.Numeric'
+      shortDescription:
+        $ref: '#/definitions/pgtype.Text'
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/pgtype.Text'
+    type: object
+  db.GetSellerOrderItemsRow:
+    properties:
+      id:
+        type: integer
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      productID:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  db.GetUserCartItemsRow:
+    properties:
+      id:
+        type: integer
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      quantity:
+        type: integer
+      shortDescription:
+        $ref: '#/definitions/pgtype.Text'
+      title:
+        type: string
+    type: object
+  db.GetUserOrdersRow:
+    properties:
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      id:
+        type: integer
+      profileID:
+        type: string
+      statusID:
+        type: integer
+      statusName:
+        type: string
+      thumbnailUrl:
+        $ref: '#/definitions/pgtype.Text'
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  db.ListOrdersRow:
+    properties:
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      id:
+        $ref: '#/definitions/pgtype.Int4'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      statusID:
+        type: integer
+      statusName:
+        type: string
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  db.ProductImage:
+    properties:
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      productID:
+        type: integer
+    type: object
+  db.UpdateAttributeParams:
+    properties:
+      attributeTypeID:
+        $ref: '#/definitions/pgtype.Int4'
+      categoryID:
+        $ref: '#/definitions/pgtype.Int4'
+      enumValues:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      isRequired:
+        $ref: '#/definitions/pgtype.Bool'
+      name:
+        type: string
+    type: object
+  handler.CategoryReq:
+    properties:
+      Description:
+        type: string
+      Name:
+        type: string
+      ParentID:
+        type: integer
+    type: object
+  handler.CategoryRes:
+    properties:
+      attributes:
+        items:
+          $ref: '#/definitions/db.CategoryAttribute'
+        type: array
+      backgroundUrl:
+        $ref: '#/definitions/pgtype.Text'
+      bannerUrl:
+        $ref: '#/definitions/pgtype.Text'
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      id:
+        type: integer
+      name:
+        type: string
+      parentID:
+        $ref: '#/definitions/pgtype.Int4'
+      products:
+        items:
+          $ref: '#/definitions/handler.ProductRes'
+        type: array
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  handler.CreateOrderProductsRequest:
+    properties:
+      ID:
+        type: integer
+      Quantity:
+        type: integer
+    type: object
+  handler.OrdersRequest:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/handler.CreateOrderProductsRequest'
+        type: array
+    type: object
+  handler.ProductCartRequest:
+    properties:
+      ProductID:
+        type: integer
+      ProductQuantity:
+        type: integer
+    type: object
+  handler.ProductCategoryRes:
+    properties:
+      ID:
+        type: integer
+      Name:
+        type: string
+    type: object
+  handler.ProductExternalDetails:
+    properties:
+      BrandID:
+        type: string
+      BrandImageURL:
+        type: string
+      BrandName:
+        type: string
+      ExternalURL:
+        type: string
+    type: object
+  handler.ProductReq:
+    properties:
+      Description:
+        type: string
+      DiscountPrice:
+        type: number
+      Price:
+        type: number
+      ProfileID:
+        type: string
+      Quantity:
+        type: integer
+      RegularPrice:
+        type: number
+      ShortDescription:
+        type: string
+      Title:
+        type: string
+      Type:
+        type: string
+    type: object
+  handler.ProductRes:
+    properties:
+      Category:
+        $ref: '#/definitions/handler.ProductCategoryRes'
+      ExternalDetails:
+        $ref: '#/definitions/handler.ProductExternalDetails'
+      Images:
+        items:
+          $ref: '#/definitions/db.ProductImage'
+        type: array
+      Thumbnail_url:
+        type: string
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      discountPrice:
+        $ref: '#/definitions/pgtype.Numeric'
+      id:
+        type: integer
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      quantity:
+        type: integer
+      regularPrice:
+        $ref: '#/definitions/pgtype.Numeric'
+      shortDescription:
+        $ref: '#/definitions/pgtype.Text'
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/pgtype.Text'
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  handler.SellerOrderRes:
+    properties:
+      Items:
+        items:
+          $ref: '#/definitions/db.GetSellerOrderItemsRow'
+        type: array
+      buyerProfileID:
+        type: string
+      orderCreatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      orderID:
+        type: integer
+      orderUpdatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      statusID:
+        type: integer
+      statusName:
+        type: string
+      thumbnailUrl: {}
+    type: object
+  handler.SellerStats:
+    properties:
+      topProducts:
+        items:
+          $ref: '#/definitions/handler.TopProduct'
+        type: array
+      totalOrders:
+        type: integer
+      totalProductsSold:
+        type: integer
+      totalRevenue:
+        type: number
+    type: object
+  handler.SellerStatsRequest:
+    properties:
+      end:
+        type: string
+      start:
+        type: string
+    type: object
+  handler.TopProduct:
+    properties:
+      id:
+        type: integer
+      revenue:
+        type: number
+      title:
+        type: string
+      totalSold:
+        type: integer
+    type: object
+  pgtype.Bool:
+    properties:
+      bool:
+        type: boolean
+      valid:
+        type: boolean
+    type: object
+  pgtype.InfinityModifier:
+    enum:
+    - 1
+    - 0
+    - -1
+    type: integer
+    x-enum-varnames:
+    - Infinity
+    - Finite
+    - NegativeInfinity
+  pgtype.Int4:
+    properties:
+      int32:
+        type: integer
+      valid:
+        type: boolean
+    type: object
+  pgtype.Numeric:
+    properties:
+      exp:
+        type: integer
+      infinityModifier:
+        $ref: '#/definitions/pgtype.InfinityModifier'
+      int:
+        $ref: '#/definitions/big.Int'
+      naN:
+        type: boolean
+      valid:
+        type: boolean
+    type: object
+  pgtype.Text:
+    properties:
+      string:
+        type: string
+      valid:
+        type: boolean
+    type: object
+  pgtype.Timestamp:
+    properties:
+      infinityModifier:
+        $ref: '#/definitions/pgtype.InfinityModifier'
+      time:
+        description: Time zone will be ignored when encoding to PostgreSQL.
+        type: string
+      valid:
+        type: boolean
+    type: object
+  shared.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  shared.RegistrationRequest:
+    properties:
+      email:
+        type: string
+      firstName:
+        maxLength: 30
+        minLength: 1
+        type: string
+      lastName:
+        maxLength: 30
+        minLength: 1
+        type: string
+      password:
+        type: string
+      username:
+        maxLength: 16
+        minLength: 3
+        type: string
+    required:
+    - email
+    - firstName
+    - lastName
+    - password
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /attribute/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get Attribute by Id
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CategoryAttribute'
+      security:
+      - ApiKeyAuth: []
+      summary: Get A Attribute
+      tags:
+      - Attribute
+    patch:
+      consumes:
+      - application/json
+      description: Update Attribute by Id
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Attributes Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/db.UpdateAttributeParams'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CategoryAttribute'
+      security:
+      - ApiKeyAuth: []
+      summary: Update A Attribute
+      tags:
+      - Attribute
+  /attributes:
+    get:
+      consumes:
+      - application/json
+      description: get Attribute by Id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.CategoryAttribute'
+            type: array
+      summary: List Attributes
+      tags:
+      - Attribute
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.Category'
+            type: array
+      summary: List Categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: post Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Create A Category
+      tags:
+      - Category
+  /categories/:id:
+    patch:
+      consumes:
+      - application/json
+      description: post Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update A Category
+      tags:
+      - Category
+  /categories/:id/attributes:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.Category'
+            type: array
+      summary: List All Attributes In Category
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: post Attribute by Id
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Category Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/db.CreateCategoryAttributeParams'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CategoryAttribute'
+      summary: Create A Attribute
+      tags:
+      - Attribute
+  /categories/:id/background:
+    post:
+      consumes:
+      - application/json
+      description: Upload An Image for the Product with This ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CategoryRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Category Background
+      tags:
+      - Product
+  /categories/:id/banner:
+    post:
+      consumes:
+      - application/json
+      description: Upload An Image for the Product with This ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CategoryRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Category Banner
+      tags:
+      - Product
+  /categories/:id/parent/remove:
+    delete:
+      consumes:
+      - application/json
+      description: Remove parent category from current category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Remove parent from category
+      tags:
+      - Category
+  /categories/:id/parent/set:
+    post:
+      consumes:
+      - application/json
+      description: post Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update A Category
+      tags:
+      - Category
+  /categories/:id/products:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.Category'
+            type: array
+      summary: List All Products In Category
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Create A Product Within A Category
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Category Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.ProductReq'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CreateProductParams'
+      summary: Create A Product
+      tags:
+      - Product
+  /categories/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CategoryRes'
+      summary: Get A Category By ID
+      tags:
+      - Category
+      - Product
+  /healthz:
+    post:
+      consumes:
+      - application/json
+      description: Useful to preform a health-check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: One small step...
+          schema:
+            type: string
+      summary: Get API Status
+      tags:
+      - Status
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Send credentials to get login token
+      parameters:
+      - description: Login Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/shared.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Login using API
+      tags:
+      - Auth
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get All Orders in DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.ListOrdersRow'
+            type: array
+      summary: List Orders
+      tags:
+      - Orders
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Get All Products in DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.ProductRes'
+            type: array
+      summary: List Products
+      tags:
+      - Product
+  /products/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get Product by Id
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ProductRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Get A Product By ID
+      tags:
+      - Product
+    patch:
+      consumes:
+      - application/json
+      description: Update Product by Id
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Update Product Params
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.ProductReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Update A Product
+      tags:
+      - Product
+  /products/{id}/images:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve All Images for the Product with This ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            items:
+              $ref: '#/definitions/db.ProductImage'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Images for a product
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Upload An Image for the Product with This ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Thumbnail Product
+      tags:
+      - Product
+  /products/{id}/thumbnail:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve The Product Image that was Set as the thumbnail
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.ProductImage'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Product's Thumbnail
+      tags:
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Update Product by Id
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Thumbnail Product
+      tags:
+      - Product
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Send credentials to get token
+      parameters:
+      - description: Registration Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/shared.RegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Register using API
+      tags:
+      - Auth
+  /sales/seller/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get Seller Sales Statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SellerStats'
+      summary: Get Seller Sales Stats
+      tags:
+      - Orders
+      - Stats
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Get Product Sales Statistics for a given time range
+      parameters:
+      - description: Seller Stats Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.SellerStatsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SellerStats'
+      summary: Get Product Sales
+      tags:
+      - Product
+      - Orders
+      - Stats
+      - User
+  /sales/seller/:id/products:
+    get:
+      consumes:
+      - application/json
+      description: Get All Orders in DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.SellerOrderRes'
+            type: array
+      summary: List User Orders Sold
+      tags:
+      - Orders
+  /user/:id/orders:
+    post:
+      consumes:
+      - application/json
+      description: Create An Order in DB
+      parameters:
+      - description: Order Request
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.OrdersRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Create Order
+      tags:
+      - Orders
+  /user/:id/orders/:orderId/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel An Order
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Order ID
+        in: body
+        name: id
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Cancel Order
+      tags:
+      - Orders
+  /user/:id/orders/:orderId/deliver:
+    post:
+      consumes:
+      - application/json
+      description: Deliver An Order
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Order ID
+        in: body
+        name: id
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Deliver Order
+      tags:
+      - Orders
+  /user/:id/orders/:orderId/ship:
+    post:
+      consumes:
+      - application/json
+      description: Ship An Order
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Order ID
+        in: body
+        name: id
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Ship Order
+      tags:
+      - Orders
+  /user/{id}/cart:
+    get:
+      consumes:
+      - application/json
+      description: Get All Products in User's Cart
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetUserCartItemsRow'
+            type: array
+      summary: Get Products in User's Cart
+      tags:
+      - User
+      - Product
+    patch:
+      consumes:
+      - application/json
+      description: Modify Product in cart by updating it's quanity
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product Cart Request
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.ProductCartRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Update A Product in User's Cart
+      tags:
+      - User
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Add a Product to cart or Modify Product in cart by updating it's
+        quanity
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product Cart Request
+        in: body
+        name: id
+        required: true
+        schema:
+          $ref: '#/definitions/handler.ProductCartRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Add A Product to User's Cart
+      tags:
+      - User
+      - Product
+  /user/{id}/cart/{productId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete A Product From The User's Cart
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Delete Cart Item
+      tags:
+      - User
+      - Product
+  /user/{id}/favorites:
+    get:
+      consumes:
+      - application/json
+      description: Get A List Of All Products that have been favorited by the user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: List Products Favorited By User
+      tags:
+      - User
+      - Product
+  /user/{id}/favorites/{productId}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a product from a user's favorites list
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Remove Product from Favorites
+      tags:
+      - User
+      - Product
+    post:
+      consumes:
+      - application/json
+      description: Favorite A Product Using Product and User ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Favorite A Product for user
+      tags:
+      - User
+      - Product
+  /user/{id}/orders:
+    get:
+      consumes:
+      - application/json
+      description: Get All User's Orders in DB
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetUserOrdersRow'
+            type: array
+      summary: List Orders made by a user
+      tags:
+      - Orders
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,72 @@
+volumes:
+  db:
+services:
+  backend:
+    container_name: prep
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - PREP_DB_NAME=prep
+      - PREP_DB_USER=prep
+      - PREP_DB_PASS=prep
+      - PREP_DB_HOST=db
+      - STRIPE_KEY=sk_test_51PZfRiRukjYdPyXuGY25ZllvPHre549yRpWSKPcSl3XSbA0YUmAMTonHLLhtNL3JpmQdF1qEQeVfvYRRoQMF9OVt00CiHyuaxY
+      - PREP_DB_PORT=5432
+      - MINIO_ENDPOINT=s3-api.nuri-sw.com
+      - MINIO_ACCESS_KEY=aeeePQQZKC7QuZxNrPf9
+      - MINIO_BUCKET=prep-bucket
+      - MINIO_SECRET_ACCESS_KEY=VZLLV8fBUAu7e7V9KHXv4HJgRQDiyaeBjJs0Ge3W
+      - KEYCLOAK_BASE_URL=https://keycloak.yawmzero.io/
+      - KEYCLOAK_REALM=nuri-dev
+      - KEYCLOAK_CLIENT_ID=prep
+      - KEYCLOAK_CLIENT_SECRET=3vtmaiZlhfRmpFuaedNSgzhwhXRWQL9s
+      - KEYCLOAK_REALM_RS256_PUBLIC_KEY=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmwa/yF3qiUI5K0EhwFx4Fr4pFeKqXaQVOwrSqp/FVwLz9n1htMCQAsNiQ0+FgncvQ5K7SojyACHX3/yNza/DIVstbR964wfsqRyfc76O7daPVUYuIL+QsDsJYKsYcaYpfRqlL2iygwQ5y+ABpa9QUCUYsR310yuXSdlihlYVxq8hPsfSszqyAanWFgeMeaetZGT26n6kn+amHUGMe6SZ2pJ8LPiKCV+IUkjlfjwvdr61hwwXO4DllaDKU2uVo08sti/X2LB8YhQg7+eU97NR9W+s/VjyxoIP+JzmItwDIf9MJkkb3hWS+mC9WPVA6wym5XYQy3vI1UpcL8rEek4rtQIDAQAB
+    restart: always
+    healthcheck:
+      test: curl --fail http://localhost:8080/api/v1/healthz || exit 1
+      interval: 20s
+      timeout: 20s
+      retries: 5
+      start_period: 15s
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1'
+    #       memory: 512M
+    #     reservations:
+    #       cpus: '0.1'
+    #       memory: 128M
+    volumes:
+      - .:/app
+      # - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8081:8080
+    depends_on:
+     - db
+  db:
+    container_name: prep_db
+    image: postgres:14
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=prep
+      - POSTGRES_PASSWORD=prep
+      - POSTGRES_DB=prep
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1'
+    #       memory: 512M
+    #     reservations:
+    #       cpus: '0.1'
+    #       memory: 128M
+
+    # networks:
+    #   - custom
+    volumes:
+      - db:/var/lib/postgresql/data

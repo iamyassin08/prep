@@ -1,0 +1,68 @@
+# Default values for helm-guestbook.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+prep:
+  image:
+    repository: iamyassin08/prep
+    tag: latest
+    pullPolicy: Always
+
+  containerPort: 80
+
+  service:
+    type: ClusterIP
+    port: 80
+
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+meilisearch:
+  persistence:
+    storageClass: "nfs-client"
+    size: 16Gi
+    enabled: true
+  service:
+    type: LoadBalancer
+    ports:
+      postgresql: 5432
+
+
+postgresql:
+  global:
+    postgresql:
+      auth:
+        postgresPassword: "prep"
+        username: "prep"
+        database: "prep"
+        password: "prep"
+  enabled: true
+  enablePostgresUser: true
+  port: 5432
+  # ssl: false
+  # sslMode: prefer
+
+  primary:
+    persistence:
+      enabled: true
+      storageClass: "nfs-client"
+      size: 16Gi
+    service:
+      type: LoadBalancer
+      ports:
+        postgresql: 5432

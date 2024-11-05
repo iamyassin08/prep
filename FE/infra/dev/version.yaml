@@ -1,0 +1,6 @@
+deployment:
+  image:
+    name: iamyassin/prep-app
+    tag: snapshot-261eb398
+    # pullSecrets:
+    #   - name: regcred
