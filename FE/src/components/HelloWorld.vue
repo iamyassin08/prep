@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
-import { getAllUsers } from '@/services/api';
+import { ref } from 'vue';
+import usersData from '@/assets/users.json'; 
 
-const users = ref([]); // Step 1: Define a ref to hold user data
+const users = ref([]);
+const loading = ref(false); 
 
-// Step 2: Create a method to fetch users
 const fetchUsers = async () => {
   try {
-    users.value = await getAllUsers(); // Fetch and assign the user data
+    loading.value = true; 
+    await new Promise((resolve) => setTimeout(resolve, 500)); 
+    users.value = usersData; 
   } catch (error) {
-    console.error('Failed to fetch users:', error); // Handle any errors
+    console.error('Failed to fetch users:', error);
+  } finally {
+    loading.value = false; 
   }
 };
-
-// Step 3: Use the onBeforeMount lifecycle hook to fetch users
-onBeforeMount(fetchUsers);
 </script>
 
 <template>
@@ -44,11 +45,10 @@ onBeforeMount(fetchUsers);
               </tr>
             </thead>
             <tbody>
-              <!-- Step 4: Dynamically render users data -->
-              <tr v-for="user in users" :key="user.id" class="border-b hover:bg-gray-50 dark:hover:bg-neutral-800">
-                <td class="py-3 px-6">{{ user.id }}</td>
-                <td class="py-3 px-6">{{ user.name }}</td>
-                <td class="py-3 px-6">{{ user.email }}</td>
+              <tr v-for="user in users" :key="user.ID" class="border-b hover:bg-gray-50 dark:hover:bg-neutral-800">
+                <td class="py-3 px-6">{{ user.ID }}</td>
+                <td class="py-3 px-6">{{ user.FirstName }}</td>
+                <td class="py-3 px-6">{{ user.Email }}</td>
               </tr>
             </tbody>
           </table>

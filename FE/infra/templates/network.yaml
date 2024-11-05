@@ -18,7 +18,7 @@ metadata:
   # namespace:prep-dev
 spec:
   parentRefs:
-  - name: nuri-gateway
+  - name: iamyassin08-gateway
     namespace: istio-ingress
   hostnames: {{- range .Values.deployment.hostnames }}
       - {{ . }}

@@ -15,7 +15,7 @@ services:
       - PREP_DB_HOST=db
       - PREP_DB_PORT=5432
       - KEYCLOAK_BASE_URL=https://keycloak.yawmzero.io/
-      - KEYCLOAK_REALM=nuri-dev
+      - KEYCLOAK_REALM=iamyassin08-dev
       - KEYCLOAK_CLIENT_ID=prep_frontend
       - KEYCLOAK_CLIENT_SECRET=3vtmaiZlhfRmpFuaedNSgzhwhXRWQL9s
       - KEYCLOAK_REALM_RS256_PUBLIC_KEY=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmwa/yF3qiUI5K0EhwFx4Fr4pFeKqXaQVOwrSqp/FVwLz9n1htMCQAsNiQ0+FgncvQ5K7SojyACHX3/yNza/DIVstbR964wfsqRyfc76O7daPVUYuIL+QsDsJYKsYcaYpfRqlL2iygwQ5y+ABpa9QUCUYsR310yuXSdlihlYVxq8hPsfSszqyAanWFgeMeaetZGT26n6kn+amHUGMe6SZ2pJ8LPiKCV+IUkjlfjwvdr61hwwXO4DllaDKU2uVo08sti/X2LB8YhQg7+eU97NR9W+s/VjyxoIP+JzmItwDIf9MJkkb3hWS+mC9WPVA6wym5XYQy3vI1UpcL8rEek4rtQIDAQAB

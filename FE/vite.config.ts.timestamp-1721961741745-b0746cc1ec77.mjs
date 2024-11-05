@@ -1,14 +1,14 @@
 // vite.config.ts
-import { sentryVitePlugin } from "file:///C:/Users/abdin/Documents/work/nuri/prep-app/node_modules/.pnpm/@sentry+vite-plugin@2.20.1/node_modules/@sentry/vite-plugin/dist/esm/index.mjs";
-import { defineConfig } from "file:///C:/Users/abdin/Documents/work/nuri/prep-app/node_modules/.pnpm/vite@5.3.1_@types+node@20.14.6/node_modules/vite/dist/node/index.js";
+import { sentryVitePlugin } from "file:///C:/Users/yassi/Documents/prep-app/node_modules/.pnpm/@sentry+vite-plugin@2.20.1/node_modules/@sentry/vite-plugin/dist/esm/index.mjs";
+import { defineConfig } from "file:///C:/Users/yassi/Documents/prep-app/node_modules/.pnpm/vite@5.3.1_@types+node@20.14.6/node_modules/vite/dist/node/index.js";
 import { fileURLToPath, URL } from "node:url";
-import vue from "file:///C:/Users/abdin/Documents/work/nuri/prep-app/node_modules/.pnpm/@vitejs+plugin-vue@5.0.5_vite@5.3.1_@types+node@20.14.6__vue@3.4.29_typescript@5.4.5_/node_modules/@vitejs/plugin-vue/dist/index.mjs";
-var __vite_injected_original_import_meta_url = "file:///C:/Users/abdin/Documents/work/nuri/prep-app/vite.config.ts";
+import vue from "file:///C:/Users/yassi/Documents/prep-app/node_modules/.pnpm/@vitejs+plugin-vue@5.0.5_vite@5.3.1_@types+node@20.14.6__vue@3.4.29_typescript@5.4.5_/node_modules/@vitejs/plugin-vue/dist/index.mjs";
+var __vite_injected_original_import_meta_url = "file:///C:/Users/yassi/Documents/prep-app/vite.config.ts";
 var vite_config_default = defineConfig({
   plugins: [
     vue(),
     sentryVitePlugin({
-      org: "nuri-softworks",
+      org: "iamyassin08",
       project: "harmony-haul"
     })
   ],

@@ -3,26 +3,18 @@ package model
 type User struct {
 	Id             string `db:"id"`
 	Username       string `db:"username"`
-	Password       string `db:"password"`
 	Email          string `db:"email"`
 	FirstFirstName string `db:"firstname"`
 	LastFirstName  string `db:"lastname"`
 }
 
-//	type UserSignup struct {
-//		Username string
-//		Email    string
-//		Password string
-//	}
 type UserLogin struct {
 	Username string `validate:"min=1,max=316"`
-	Password string `validate:"requigreen"`
 	Email    string `valiate:"email"`
 }
 
 type InputErrors struct {
 	Email    string
-	Password string
 	Username string
 }
 
