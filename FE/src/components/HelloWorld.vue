@@ -23,25 +23,45 @@
 
         <!-- End Avatar Group -->
   
-        <!-- Form -->
-        <form>
-          <div class="mx-auto max-w-2xl sm:flex sm:space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-gray-900/20">
-            <div class="w-full pb-2 sm:pb-0">
-              <label for="hs-hero-name-1" class="block text-sm font-medium dark:text-white"><span class="sr-only">Your name</span></label>
-              <input type="text" id="hs-hero-name-1" class="py-3 px-4 block w-full border-transparent rounded-lg text-sm focus:border-green-500 focus:ring-green-500 dark:bg-neutral-900 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Your name">
-            </div>
-            <div class="pt-2 sm:pt-0 sm:ps-3 border-t border-gray-200 sm:border-t-0 sm:border-s w-full dark:border-neutral-700">
-              <label for="hs-hero-email-1" class="block text-sm font-medium dark:text-white"><span class="sr-only">Your email address</span></label>
-              <input type="email" id="hs-hero-email-1" class="py-3 px-4 block w-full border-transparent rounded-lg text-sm focus:border-green-500 focus:ring-green-500 dark:bg-neutral-900 dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Your name">
-            </div>
-            <div class="whitespace-nowrap pt-2 sm:pt-0 grid sm:block">
-              <a class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:bg-green-700 disabled:opacity-50 disabled:pointer-events-none" href="#">
-                Create User
-              </a>
-            </div>
+          
+       
+        
+        <!-- Table to display users -->
+        <div class="overflow-x-auto bg-white shadow-lg rounded-lg border dark:bg-neutral-900 dark:border-neutral-700">
+          <table class="min-w-full text-sm text-left text-gray-800 dark:text-white">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-neutral-700 dark:text-neutral-200">
+              <tr>
+                <th scope="col" class="py-3 px-6 font-semibold tracking-wider">ID</th>
+                <th scope="col" class="py-3 px-6 font-semibold tracking-wider">Name</th>
+                <th scope="col" class="py-3 px-6 font-semibold tracking-wider">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Display users data -->
+              <tr class="border-b hover:bg-gray-50 dark:hover:bg-neutral-800">
+                <td class="py-3 px-6">1</td>
+                <td class="py-3 px-6">John Doe</td>
+                <td class="py-3 px-6">john.doe@example.com</td>
+              </tr>
+              <tr class="border-b hover:bg-gray-50 dark:hover:bg-neutral-800">
+                <td class="py-3 px-6">2</td>
+                <td class="py-3 px-6">Jane Smith</td>
+                <td class="py-3 px-6">jane.smith@example.com</td>
+              </tr>
+            </tbody>
+          </table>
+        
+          <!-- Button Section -->
+          <div class="w-full flex justify-center pt-6">
+            <button class="py-3 px-5 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 transition duration-200 ease-in-out disabled:opacity-50 disabled:pointer-events-none">
+              Get Users
+            </button>
           </div>
-        </form>
-        <!-- End Form -->
+        </div>
+        
+        
+        <!-- End Table -->
+        
   
         <!-- SVG Element -->
         <div class="hidden absolute top-2/4 start-0 transform -translate-y-2/4 -translate-x-40 md:block lg:-translate-x-80" aria-hidden="true">

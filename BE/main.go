@@ -12,7 +12,6 @@ import (
 	"github.com/iamyassin08/prep/api/middlewares"
 	"github.com/iamyassin08/prep/api/routes"
 	"github.com/iamyassin08/prep/db"
-	"github.com/iamyassin08/prep/storage"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/client"
@@ -39,7 +38,6 @@ func initTracer() *sdktrace.TracerProvider {
 		sdktrace.WithResource(
 			resource.NewWithAttributes(
 				semconv.SchemaURL,
-				semconv.ServiceFirstNameKey.String("prep"),
 			)),
 	)
 	otel.SetTracerProvider(tp)
@@ -77,14 +75,11 @@ func main() {
 		log.Fatal(err)
 	}
 	db.DB = db.New(dB)
-	storage.MINIO_CLIENT, err = storage.ConnectToMinioClient()
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer dB.Close()
-	// bkex, _ := storage.MINIO_CLIENT.BucketExists(context.Background(), "prep-bucket")
-	// _ = storage.MINIO_CLIENT.MakeBucket(ctx, "prep", minio.MakeBucketOptions{Region: "us-central"})
-	fmt.Println(storage.MINIO_CLIENT.ListBuckets(ctx))
+
 	middlewares.InitFiberMiddlewares(app, routes.InitPublicRoutes, routes.InitProtectedRoutes)
 	log.Fatal(app.Listen(":8080"))
 }

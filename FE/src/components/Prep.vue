@@ -12,7 +12,7 @@
       <h1 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">User Management</h1>
   
     
-      <div class="overflow-x-auto bg-white dark:bg-neutral-800 shadow-lg rounded-lg">
+      <!-- <div class="overflow-x-auto bg-white dark:bg-neutral-800 shadow-lg rounded-lg">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Users List</h2>
         <table class="min-w-full table-auto text-sm text-left">
           <thead>
@@ -47,7 +47,7 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
   
   
       <div class="mt-6 bg-white dark:bg-neutral-800 p-6 shadow-lg rounded-lg">

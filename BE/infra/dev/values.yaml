@@ -4,7 +4,7 @@ deployment:
   replicas: 3
   appFirstName: "prep-dev"
   hostnames: 
-    - prep-dev.nuri-sw.com
+    - prep.com
   image:
     name: iamyassin08/prep
     tag: latest
