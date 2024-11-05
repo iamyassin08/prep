@@ -2,16 +2,15 @@
 -- +goose StatementBegin
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-  
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE user_tags (
-    tag_id INTEGER NOT NULL REFERENCES tags(id),
-    user_id INTEGER NOT NULL REFERENCES users(id),
+    tag_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     PRIMARY KEY (tag_id, user_id)
 );
 

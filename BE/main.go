@@ -1,102 +1,60 @@
 package main
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
 	"log"
-	"os"
+	"math/rand"
+	"time"
 
-	"github.com/gofiber/contrib/otelfiber"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/iamyassin08/prep/api/middlewares"
-	"github.com/iamyassin08/prep/api/routes"
-	"github.com/iamyassin08/prep/db"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/stripe/stripe-go"
-	"github.com/stripe/stripe-go/client"
-
-	// _ "github.com/lib/pq"
-	"go.opentelemetry.io/otel"
-	stdout "go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
-	"go.opentelemetry.io/otel/propagation"
-	"go.opentelemetry.io/otel/sdk/resource"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
+	"github.com/iamyassin08/prep/db" // Adjust this import based on your project structure
+	_ "github.com/mattn/go-sqlite3"
 )
 
-var tracer = otel.Tracer("prep")
-
-func initTracer() *sdktrace.TracerProvider {
-	exporter, err := stdout.New(stdout.WithPrettyPrint())
-	if err != nil {
-		log.Fatal(err)
-	}
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithSampler(sdktrace.AlwaysSample()),
-		sdktrace.WithBatcher(exporter),
-		sdktrace.WithResource(
-			resource.NewWithAttributes(
-				semconv.SchemaURL,
-			)),
-	)
-	otel.SetTracerProvider(tp)
-	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
-	return tp
-}
-
-// @securityDefinitions.apikey	BearerAuth
-// @in							header
-// @name						Authorization
 func main() {
-	ctx := context.Background()
-	// tp := initTracer()
-	// defer func() {
-	// 	if err := tp.Shutdown(ctx); err != nil {
-	// 		log.Printf("Error shutting down tracer provider")
-	// 	}
-	// }()
-	stripeKey, _ := os.LookupEnv("PREP_DB_HOST")
-	params := &stripe.ChargeParams{}
-	sc := &client.API{}
-	sc.Init(stripeKey, nil)
-	sc.Charges.Get("ch_3Ln3j02eZvKYlo2C0d5IZWuG", params)
+	// Seed random number generator for generating random users
+	rand.Seed(time.Now().UnixNano())
+
 	app := fiber.New(fiber.Config{
 		StreamRequestBody: true,
 		AppName:           "Prep",
 		ServerHeader:      "Fiber",
 	})
-	app.Use(otelfiber.Middleware())
+
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 	}))
-	dB, err := pgxpool.New(ctx, GetConnectionString())
+
+	// Connect to SQLite database
+	dB, err := sql.Open("sqlite3", "tmp/app.db")
 	if err != nil {
 		log.Fatal(err)
 	}
-	db.DB = db.New(dB)
-	if err != nil {
-		fmt.Println(err)
-	}
 	defer dB.Close()
 
-	middlewares.InitFiberMiddlewares(app, routes.InitPublicRoutes, routes.InitProtectedRoutes)
+	// Initialize the DB variable with the connection
+	db.DB = db.New(dB)
+
+	// Create random users
+	createRandomUsers(dB, 10)
+
 	log.Fatal(app.Listen(":8080"))
 }
 
-func GetConnectionString() string {
-	dbHost, _ := os.LookupEnv("PREP_DB_HOST")
-	dbFirstName, _ := os.LookupEnv("PREP_DB_NAME")
-	dbPass, _ := os.LookupEnv("PREP_DB_PASS")
-	dbUser, _ := os.LookupEnv("PREP_DB_USER")
-	dbSsl, _ := os.LookupEnv("PREP_DB_SSL_MODE")
-	if len(dbSsl) <= 2 {
-		dbSsl = "disable"
+func createRandomUsers(db *sql.DB, n int) {
+	firstNames := []string{"John", "Jane", "Alice", "Bob", "Charlie", "Diana", "Eva", "Frank", "Grace", "Henry"}
+	lastNames := []string{"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"}
+
+	for i := 0; i < n; i++ {
+		firstName := firstNames[rand.Intn(len(firstNames))]
+		lastName := lastNames[rand.Intn(len(lastNames))]
+		email := fmt.Sprintf("%s.%s@example.com", firstName, lastName)
+
+		_, err := db.Exec("INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?)", firstName, lastName, email)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
-	dbPort, _ := os.LookupEnv("PREP_DB_PORT")
-	if len(dbPort) < 1 {
-		dbPort = "5432"
-	}
-	var db_connection_string = fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbFirstName)
-	return db_connection_string
 }

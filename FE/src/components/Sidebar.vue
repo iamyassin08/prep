@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/userStore'; 
-import NoAccess from '../components//NoAccess.vue';
 
-const userStore = useUserStore();
+
 </script>
 
 <template>
@@ -42,7 +40,7 @@ const userStore = useUserStore();
     >
       <ul class="space-y-1.5" role="tablist">
         <!-- Admin Dashboard -->
-        <li v-if="!userStore.isAdmin" class="hs-accordion lg:block hidden" id="dashboard-accordion">
+        <li  class="hs-accordion lg:block hidden" id="dashboard-accordion">
           <RouterLink to="/prep">
             <button
               type="button"

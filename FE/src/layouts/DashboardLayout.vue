@@ -2,8 +2,7 @@
 import AppFooter from "@/components/layout/Footer.vue";
 import AppHeader from "@/components/layout/TheHeader.vue";
 import Sidebar from "@/components//Sidebar.vue";
-import { useUserStore } from '@/stores/userStore';
-const userStore = useUserStore();
+
 
 
 </script>

@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/iamyassin08/prep/api/handler"
-	"github.com/iamyassin08/prep/api/middlewares"
 	"github.com/iamyassin08/prep/docs"
 
 	fiberSwagger "github.com/swaggo/fiber-swagger"
@@ -29,9 +28,9 @@ func InitPublicRoutes(app *fiber.App) {
 
 func InitProtectedRoutes(app *fiber.App) {
 	apihandler := handler.ApiHandler{}
-	freetier := app.Group("/api/v1")
-	freetier.Use(middlewares.RequiresRealmRole("freetier"))
+	general := app.Group("/api/v1")
+
 	{
-		freetier.Get("/user/:id", apihandler.ServeUser)
+		general.Get("/user/:id", apihandler.ServeUser)
 	}
 }
