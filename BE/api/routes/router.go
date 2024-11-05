@@ -15,7 +15,6 @@ func InitPublicRoutes(app *fiber.App) {
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	public := app.Group("/")
 	{
-		// Public routes: registration, login, and health check
 
 		public.Get("/swagger/*", fiberSwagger.WrapHandler)
 
@@ -29,6 +28,7 @@ func InitPublicRoutes(app *fiber.App) {
 }
 
 func InitProtectedRoutes(app *fiber.App) {
+	apihandler := handler.ApiHandler{}
 	freetier := app.Group("/api/v1")
 	freetier.Use(middlewares.RequiresRealmRole("freetier"))
 	{

@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/iamyassin/prep/db"
+	"github.com/iamyassin08/prep/db"
 )
 
 type UserReq struct {
@@ -18,6 +18,36 @@ type UserReq struct {
 
 type UserRes struct {
 	db.User
+}
+
+// Populate user parameters for creation and update
+func populateUserParams(user UserReq, params interface{}) error {
+	switch p := params.(type) {
+	case *db.CreateUserParams:
+		p.FirstName = user.FirstName
+		p.LastName = user.LastName
+		p.Email = user.Email
+	case *db.UpdateUserParams:
+		p.FirstName = user.FirstName
+		p.LastName = user.LastName
+		p.Email = user.Email
+	default:
+		return fmt.Errorf("unsupported params type")
+	}
+	return nil
+}
+
+// Helper functions for creating and updating users
+func createUserHelper(user UserReq) (db.CreateUserParams, error) {
+	var params db.CreateUserParams
+	err := populateUserParams(user, &params)
+	return params, err
+}
+
+func updateUserHelper(user UserReq) (db.UpdateUserParams, error) {
+	var params db.UpdateUserParams
+	err := populateUserParams(user, &params)
+	return params, err
 }
 
 // @BasePath /api/v1
@@ -167,35 +197,4 @@ func (h *ApiHandler) CreateUser(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(UserRes{User: newUser})
-}
-
-func populateUserParams(user UserReq, params interface{}) error {
-	switch p := params.(type) {
-	case *db.CreateUserParams:
-		// Assuming CreateUserParams has the fields FirstName, LastName, Email
-		p.FirstName = user.FirstName
-		p.LastName = user.LastName
-		p.Email = user.Email
-	case *db.UpdateUserParams:
-		// Assuming UpdateUserParams has the fields FirstName, LastName, Email
-		p.FirstName = user.FirstName
-		p.LastName = user.LastName
-		p.Email = user.Email
-	default:
-		return fmt.Errorf("unsupported params type")
-	}
-
-	return nil
-}
-
-func createUserHelper(user UserReq) (db.CreateUserParams, error) {
-	var params db.CreateUserParams
-	err := populateUserParams(user, &params)
-	return params, err
-}
-
-func updateUserHelper(user UserReq) (db.UpdateUserParams, error) {
-	var params db.UpdateUserParams
-	err := populateUserParams(user, &params)
-	return params, err
 }
