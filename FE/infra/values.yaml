@@ -1,0 +1,58 @@
+# Default values for helm-guestbook.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+prep-app:
+  replicaCount: 1
+  image:
+    repository: iamyassin/prep-app
+    tag: latest
+    pullPolicy: Always
+
+  containerPort: 80
+
+  service:
+    type: ClusterIP
+    port: 80
+
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+# postgresql:
+#   enabled: true
+#   enablePostgresUser: true
+#   postgresPassword: postgres
+#   username: harmony_haul_app
+#   password: harmony_haul_app_test
+#   database: harmony_haul_app
+#   hostname: ""
+#   port: 5432
+#   ssl: false
+#   sslMode: prefer
+
+  # securityContext:
+  #   enabled: true
+  #   runAsUser: 1000
+  #   fsGroup: 1000
+  # primary:
+  #   persistence:
+  #     size: 8Gi
+  #   service:
+  #     type: LoadBalancer
+  #     ports:
+  #       postgresql: 5432

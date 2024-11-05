@@ -1,0 +1,11 @@
+deployment:
+  storageClass: nfs-client
+  labels: []
+  replicas: 1
+  appFirstName: prep-app
+  hostnames: 
+    - prep-app-dev.nuri-sw.com
+  # tlsHosts:
+  #   - "dev-aa.yawmzero.io"
+  #   - "dev-ra.yawmzero.io"
+  #   - "dev-tga.yawmzero.io"

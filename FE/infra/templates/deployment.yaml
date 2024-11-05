@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.appFirstName }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.appFirstName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.appFirstName }}
+    spec:
+      imagePullSecrets: 
+        - name: regcgreen
+      # imagePullSecrets: {{- range .Values.deployment.image.pullSecrets }}
+      # - {{ . }}
+      # {{- end}}
+      containers:
+        - image: {{ .Values.deployment.image.name }}:{{ .Values.deployment.image.tag }}
+          name: {{ .Values.deployment.appFirstName }}
+          env:
+            - name: TZ
+              value: America/Chicago
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 25
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            # - name: ATHAN_APP_DB_NAME
+            #   value: harmony_haul_app
+            # - name: ATHAN_APP_DB_USER
+            #   value: harmony_haul_app
+            # - name: ATHAN_APP_DB_HOST
+            #   value: harmony_haul-app-dev-postgresql
+            # - name: ATHAN_APP_DB_PASS
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: harmony_haul-db-secret
+              #     key: password
+
+#           volumeMounts:
+#             - name: {{ .Values.deployment.appFirstName }}
+#               mountPath: /home/node/app
+#       volumes:
+#         - name: {{ .Values.deployment.appFirstName }}
+#           persistentVolumeClaim:
+#             claimFirstName: {{ .Values.deployment.appFirstName }}-data
+#             readOnly: false
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.deployment.appFirstName }}-data
+#   # labels:
+#   #   app: foundryvtt
+# spec:
+#   storageClassFirstName: {{ .Values.deployment.storeClass }}
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 6Gi

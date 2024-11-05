@@ -1,0 +1,1535 @@
+definitions:
+  big.Int:
+    type: object
+  db.Category:
+    properties:
+      backgroundUrl:
+        $ref: '#/definitions/pgtype.Text'
+      bannerUrl:
+        $ref: '#/definitions/pgtype.Text'
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      id:
+        type: integer
+      name:
+        type: string
+      parentID:
+        $ref: '#/definitions/pgtype.Int4'
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  db.CategoryAttribute:
+    properties:
+      attributeTypeID:
+        $ref: '#/definitions/pgtype.Int4'
+      categoryID:
+        $ref: '#/definitions/pgtype.Int4'
+      enumValues:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      isRequigreen:
+        $ref: '#/definitions/pgtype.Bool'
+      name:
+        type: string
+    type: object
+  db.CreateCategoryAttributeParams:
+    properties:
+      attributeTypeID:
+        $ref: '#/definitions/pgtype.Int4'
+      categoryID:
+        $ref: '#/definitions/pgtype.Int4'
+      enumValues:
+        items:
+          type: string
+        type: array
+      isRequigreen:
+        $ref: '#/definitions/pgtype.Bool'
+      name:
+        type: string
+    type: object
+  db.CreateUserParams:
+    properties:
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      discountEmail :
+        $ref: '#/definitions/pgtype.Numeric'
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      quantity:
+        type: integer
+      regularEmail :
+        $ref: '#/definitions/pgtype.Numeric'
+      shortDescription:
+        $ref: '#/definitions/pgtype.Text'
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/pgtype.Text'
+    type: object
+  db.GetSellerOrderItemsRow:
+    properties:
+      id:
+        type: integer
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      userID:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  db.GetUserCartItemsRow:
+    properties:
+      id:
+        type: integer
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      quantity:
+        type: integer
+      shortDescription:
+        $ref: '#/definitions/pgtype.Text'
+      title:
+        type: string
+    type: object
+  db.GetUserOrdersRow:
+    properties:
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      id:
+        type: integer
+      profileID:
+        type: string
+      statusID:
+        type: integer
+      statusFirstName:
+        type: string
+      thumbnailUrl:
+        $ref: '#/definitions/pgtype.Text'
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  db.ListOrdersRow:
+    properties:
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      id:
+        $ref: '#/definitions/pgtype.Int4'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      statusID:
+        type: integer
+      statusFirstName:
+        type: string
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  db.UserImage:
+    properties:
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      id:
+        type: integer
+      imageUrl:
+        type: string
+      userID:
+        type: integer
+    type: object
+  db.UpdateAttributeParams:
+    properties:
+      attributeTypeID:
+        $ref: '#/definitions/pgtype.Int4'
+      categoryID:
+        $ref: '#/definitions/pgtype.Int4'
+      enumValues:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      isRequigreen:
+        $ref: '#/definitions/pgtype.Bool'
+      name:
+        type: string
+    type: object
+  handler.CategoryReq:
+    properties:
+      Description:
+        type: string
+      FirstName:
+        type: string
+      ParentID:
+        type: integer
+    type: object
+  handler.CategoryRes:
+    properties:
+      attributes:
+        items:
+          $ref: '#/definitions/db.CategoryAttribute'
+        type: array
+      backgroundUrl:
+        $ref: '#/definitions/pgtype.Text'
+      bannerUrl:
+        $ref: '#/definitions/pgtype.Text'
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      id:
+        type: integer
+      name:
+        type: string
+      parentID:
+        $ref: '#/definitions/pgtype.Int4'
+      users:
+        items:
+          $ref: '#/definitions/handler.UserRes'
+        type: array
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  handler.CreateOrderUsersRequest:
+    properties:
+      ID:
+        type: integer
+      Quantity:
+        type: integer
+    type: object
+  handler.OrdersRequest:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/handler.CreateOrderUsersRequest'
+        type: array
+    type: object
+  handler.UserCartRequest:
+    properties:
+      UserID:
+        type: integer
+      UserQuantity:
+        type: integer
+    type: object
+  handler.UserCategoryRes:
+    properties:
+      ID:
+        type: integer
+      FirstName:
+        type: string
+    type: object
+  handler.UserExternalDetails:
+    properties:
+      BrandID:
+        type: string
+      BrandImageURL:
+        type: string
+      BrandFirstName:
+        type: string
+      ExternalURL:
+        type: string
+    type: object
+  handler.UserReq:
+    properties:
+      Description:
+        type: string
+      DiscountEmail :
+        type: number
+      Email :
+        type: number
+      UserID:
+        type: string
+      Quantity:
+        type: integer
+      LastName :
+        type: number
+      ShortDescription:
+        type: string
+      FirstName:
+        type: string
+      Type:
+        type: string
+    type: object
+  handler.UserRes:
+    properties:
+      Category:
+        $ref: '#/definitions/handler.UserCategoryRes'
+      ExternalDetails:
+        $ref: '#/definitions/handler.UserExternalDetails'
+      Images:
+        items:
+          $ref: '#/definitions/db.UserImage'
+        type: array
+      Thumbnail_url:
+        type: string
+      createdAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      description:
+        $ref: '#/definitions/pgtype.Text'
+      discountEmail :
+        $ref: '#/definitions/pgtype.Numeric'
+      id:
+        type: integer
+      price:
+        $ref: '#/definitions/pgtype.Numeric'
+      profileID:
+        $ref: '#/definitions/pgtype.Text'
+      quantity:
+        type: integer
+      regularEmail :
+        $ref: '#/definitions/pgtype.Numeric'
+      shortDescription:
+        $ref: '#/definitions/pgtype.Text'
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/pgtype.Text'
+      updatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+    type: object
+  handler.SellerOrderRes:
+    properties:
+      Items:
+        items:
+          $ref: '#/definitions/db.GetSellerOrderItemsRow'
+        type: array
+      buyerUserID:
+        type: string
+      orderCreatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      orderID:
+        type: integer
+      orderUpdatedAt:
+        $ref: '#/definitions/pgtype.Timestamp'
+      statusID:
+        type: integer
+      statusFirstName:
+        type: string
+      thumbnailUrl: {}
+    type: object
+  handler.SellerStats:
+    properties:
+      topUsers:
+        items:
+          $ref: '#/definitions/handler.TopUser'
+        type: array
+      totalOrders:
+        type: integer
+      totalUsersSold:
+        type: integer
+      totalRevenue:
+        type: number
+    type: object
+  handler.SellerStatsRequest:
+    properties:
+      end:
+        type: string
+      start:
+        type: string
+    type: object
+  handler.TopUser:
+    properties:
+      id:
+        type: integer
+      revenue:
+        type: number
+      title:
+        type: string
+      totalSold:
+        type: integer
+    type: object
+  pgtype.Bool:
+    properties:
+      bool:
+        type: boolean
+      valid:
+        type: boolean
+    type: object
+  pgtype.InfinityModifier:
+    enum:
+    - 1
+    - 0
+    - -1
+    type: integer
+    x-enum-varnames:
+    - Infinity
+    - Finite
+    - NegativeInfinity
+  pgtype.Int4:
+    properties:
+      int32:
+        type: integer
+      valid:
+        type: boolean
+    type: object
+  pgtype.Numeric:
+    properties:
+      exp:
+        type: integer
+      infinityModifier:
+        $ref: '#/definitions/pgtype.InfinityModifier'
+      int:
+        $ref: '#/definitions/big.Int'
+      naN:
+        type: boolean
+      valid:
+        type: boolean
+    type: object
+  pgtype.Text:
+    properties:
+      string:
+        type: string
+      valid:
+        type: boolean
+    type: object
+  pgtype.Timestamp:
+    properties:
+      infinityModifier:
+        $ref: '#/definitions/pgtype.InfinityModifier'
+      time:
+        description: Time zone will be ignogreen when encoding to PostgreSQL.
+        type: string
+      valid:
+        type: boolean
+    type: object
+  shagreen.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    requigreen:
+    - password
+    - username
+    type: object
+  shagreen.RegistrationRequest:
+    properties:
+      email:
+        type: string
+      firstFirstName:
+        maxLength: 30
+        minLength: 1
+        type: string
+      lastFirstName:
+        maxLength: 30
+        minLength: 1
+        type: string
+      password:
+        type: string
+      username:
+        maxLength: 16
+        minLength: 3
+        type: string
+    requigreen:
+    - email
+    - firstFirstName
+    - lastFirstName
+    - password
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /attribute/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get Attribute by Id
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CategoryAttribute'
+      security:
+      - ApiKeyAuth: []
+      summary: Get A Attribute
+      tags:
+      - Attribute
+    patch:
+      consumes:
+      - application/json
+      description: Update Attribute by Id
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Update Attributes Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/db.UpdateAttributeParams'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CategoryAttribute'
+      security:
+      - ApiKeyAuth: []
+      summary: Update A Attribute
+      tags:
+      - Attribute
+  /attributes:
+    get:
+      consumes:
+      - application/json
+      description: get Attribute by Id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.CategoryAttribute'
+            type: array
+      summary: List Attributes
+      tags:
+      - Attribute
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.Category'
+            type: array
+      summary: List Categories
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: post Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Create A Category
+      tags:
+      - Category
+  /categories/:id:
+    patch:
+      consumes:
+      - application/json
+      description: post Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update A Category
+      tags:
+      - Category
+  /categories/:id/attributes:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.Category'
+            type: array
+      summary: List All Attributes In Category
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: post Attribute by Id
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Category Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/db.CreateCategoryAttributeParams'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CategoryAttribute'
+      summary: Create A Attribute
+      tags:
+      - Attribute
+  /categories/:id/background:
+    post:
+      consumes:
+      - application/json
+      description: Upload An Image for the User with This ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        requigreen: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CategoryRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Category Background
+      tags:
+      - User
+  /categories/:id/banner:
+    post:
+      consumes:
+      - application/json
+      description: Upload An Image for the User with This ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        requigreen: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CategoryRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Category Banner
+      tags:
+      - User
+  /categories/:id/parent/remove:
+    delete:
+      consumes:
+      - application/json
+      description: Remove parent category from current category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Remove parent from category
+      tags:
+      - Category
+  /categories/:id/parent/set:
+    post:
+      consumes:
+      - application/json
+      description: post Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Category Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.CategoryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update A Category
+      tags:
+      - Category
+  /categories/:id/users:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.Category'
+            type: array
+      summary: List All Users In Category
+      tags:
+      - Category
+    post:
+      consumes:
+      - application/json
+      description: Create A User Within A Category
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Category Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.UserReq'
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.CreateUserParams'
+      summary: Create A User
+      tags:
+      - User
+  /categories/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get Category by Id
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CategoryRes'
+      summary: Get A Category By ID
+      tags:
+      - Category
+      - User
+  /healthz:
+    post:
+      consumes:
+      - application/json
+      description: Useful to preform a health-check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: One small step...
+          schema:
+            type: string
+      summary: Get API Status
+      tags:
+      - Status
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Send cgreenentials to get login token
+      parameters:
+      - description: Login Request
+        in: body
+        name: request
+        requigreen: true
+        schema:
+          $ref: '#/definitions/shagreen.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Login using API
+      tags:
+      - Auth
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get All Orders in DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.ListOrdersRow'
+            type: array
+      summary: List Orders
+      tags:
+      - Orders
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users in DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.UserRes'
+            type: array
+      summary: List Users
+      tags:
+      - User
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get User by Id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UserRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Get A User By ID
+      tags:
+      - User
+    patch:
+      consumes:
+      - application/json
+      description: Update User by Id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: Update User Params
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.UserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Update A User
+      tags:
+      - User
+  /users/{id}/images:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve All Images for the User with This ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        requigreen: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            items:
+              $ref: '#/definitions/db.UserImage'
+            type: array
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Images for a user
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Upload An Image for the User with This ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        requigreen: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Thumbnail User
+      tags:
+      - User
+  /users/{id}/thumbnail:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve The User Image that was Set as the thumbnail
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/db.UserImage'
+      security:
+      - ApiKeyAuth: []
+      summary: Get User's Thumbnail
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Update User by Id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: integer
+      - description: Authorization
+        in: header
+        name: Authorization
+        type: string
+      - description: image to upload
+        in: formData
+        name: image
+        requigreen: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        default:
+          description: ""
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Upload Image And Set As Thumbnail User
+      tags:
+      - User
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Send cgreenentials to get token
+      parameters:
+      - description: Registration Request
+        in: body
+        name: request
+        requigreen: true
+        schema:
+          $ref: '#/definitions/shagreen.RegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Register using API
+      tags:
+      - Auth
+  /sales/seller/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get Seller Sales Statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SellerStats'
+      summary: Get Seller Sales Stats
+      tags:
+      - Orders
+      - Stats
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Get User Sales Statistics for a given time range
+      parameters:
+      - description: Seller Stats Request
+        in: body
+        name: request
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.SellerStatsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.SellerStats'
+      summary: Get User Sales
+      tags:
+      - User
+      - Orders
+      - Stats
+      - User
+  /sales/seller/:id/users:
+    get:
+      consumes:
+      - application/json
+      description: Get All Orders in DB
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handler.SellerOrderRes'
+            type: array
+      summary: List User Orders Sold
+      tags:
+      - Orders
+  /user/:id/orders:
+    post:
+      consumes:
+      - application/json
+      description: Create An Order in DB
+      parameters:
+      - description: Order Request
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.OrdersRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Create Order
+      tags:
+      - Orders
+  /user/:id/orders/:orderId/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel An Order
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: Order ID
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Cancel Order
+      tags:
+      - Orders
+  /user/:id/orders/:orderId/deliver:
+    post:
+      consumes:
+      - application/json
+      description: Deliver An Order
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: Order ID
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Deliver Order
+      tags:
+      - Orders
+  /user/:id/orders/:orderId/ship:
+    post:
+      consumes:
+      - application/json
+      description: Ship An Order
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: Order ID
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Ship Order
+      tags:
+      - Orders
+  /user/{id}/cart:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users in User's Cart
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetUserCartItemsRow'
+            type: array
+      summary: Get Users in User's Cart
+      tags:
+      - User
+      - User
+    patch:
+      consumes:
+      - application/json
+      description: Modify User in cart by updating it's quanity
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: User Cart Request
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.UserCartRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Update A User in User's Cart
+      tags:
+      - User
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Add a User to cart or Modify User in cart by updating it's
+        quanity
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: User Cart Request
+        in: body
+        name: id
+        requigreen: true
+        schema:
+          $ref: '#/definitions/handler.UserCartRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Add A User to User's Cart
+      tags:
+      - User
+      - User
+  /user/{id}/cart/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete A User From The User's Cart
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Delete Cart Item
+      tags:
+      - User
+      - User
+  /user/{id}/favorites:
+    get:
+      consumes:
+      - application/json
+      description: Get A List Of All Users that have been favorited by the user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: List Users Favorited By User
+      tags:
+      - User
+      - User
+  /user/{id}/favorites/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a user from a user's favorites list
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        requigreen: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Remove User from Favorites
+      tags:
+      - User
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Favorite A User Using User and User ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      - description: User ID
+        in: path
+        name: userId
+        requigreen: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Favorite A User for user
+      tags:
+      - User
+      - User
+  /user/{id}/orders:
+    get:
+      consumes:
+      - application/json
+      description: Get All User's Orders in DB
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        requigreen: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/db.GetUserOrdersRow'
+            type: array
+      summary: List Orders made by a user
+      tags:
+      - Orders
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
