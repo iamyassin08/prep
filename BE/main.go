@@ -9,12 +9,12 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/iamyassin08/prep/db" // Adjust this import based on your project structure
+	"github.com/iamyassin08/prep/db" // Ensure this import matches your module
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	// Seed random number generator for generating random users
+	// Seed the random number generator
 	rand.Seed(time.Now().UnixNano())
 
 	app := fiber.New(fiber.Config{
@@ -22,7 +22,6 @@ func main() {
 		AppName:           "Prep",
 		ServerHeader:      "Fiber",
 	})
-
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 	}))
@@ -34,7 +33,7 @@ func main() {
 	}
 	defer dB.Close()
 
-	// Initialize the DB variable with the connection
+	// Initialize the global DB variable with the Queries instance
 	db.DB = db.New(dB)
 
 	// Create random users

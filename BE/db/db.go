@@ -5,8 +5,8 @@ import (
 	"database/sql"
 )
 
-// Global variable for the database connection
-var DB *Queries // This is the variable that will hold your queries
+// Global variable to hold the Queries instance
+var DB *Queries
 
 type DBTX interface {
 	ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error)
