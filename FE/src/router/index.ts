@@ -7,7 +7,6 @@ import AppLayout from "@/layouts/AppLayout.vue";
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
 
 import Prep from "@/components/Prep.vue";
-import User from "@/components/User.vue";
 
 
 declare global {
@@ -33,12 +32,7 @@ const router = createRouter({
       component: Prep, 
     },
     
-    {
-      path: '/user/',
-      name: 'user',
-      meta: { layout: DashboardLayout },
-      component: User, 
-    },
+ 
 
   ],
 });

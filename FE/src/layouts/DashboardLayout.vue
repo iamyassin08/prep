@@ -11,7 +11,7 @@ const userStore = useUserStore();
     <AppHeader />
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content"
-        class="dark:bg-neutral-900 bg-slate-500 pt-[59px] relative before:absolute before:top-0 before:start-0 before:-z-[1] before:w-full before:h-96 before:bg-neutral-800 dark:before:bg-neutral-950">
+        class="dark:bg-neutral-900 bg-neutral-700 pt-[59px] relative before:absolute before:top-0 before:start-0 before:-z-[1] before:w-full before:h-96 before:bg-neutral-800 dark:before:bg-neutral-950">
         <!-- Container -->
         <div class="max-w-[90rem] mx-auto pt-8">
             <!-- Header -->
@@ -29,7 +29,7 @@ const userStore = useUserStore();
             <!-- Content -->
             <div class="p-2 sm:p-5 md:pt-5">
                 <RouterLink side id="hs-pro-sidebar"
-                    class="w-[260px] hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden sticky inset-y-0 start-0 z-[60] h-full top-0 bg-white border border-neutral-200 lg:block lg:absolute lg:start-auto lg:z-40 lg:translate-x-0 lg:inset-y-auto lg:h-[700px] lg:rounded-xl dark:bg-neutral-800 dark:border-neutral-700"
+                    class="w-[260px] hs-overlay [--auto-close:lg] hs-overlay-open:tranneutral-x-0 -tranneutral-x-full transition-all duration-300 transform hidden sticky inset-y-0 start-0 z-[60] h-full top-0 bg-white border border-neutral-200 lg:block lg:absolute lg:start-auto lg:z-40 lg:tranneutral-x-0 lg:inset-y-auto lg:h-[700px] lg:rounded-xl dark:bg-neutral-800 dark:border-neutral-700"
                     tabindex="-1" aria-label="Mini Sidebar">
                     
                     <Sidebar />

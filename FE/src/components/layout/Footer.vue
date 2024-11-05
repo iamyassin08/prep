@@ -21,12 +21,12 @@
       <!-- Navigation Links -->
       <nav>
         <ul class="text-center">
-          <li class="inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-translate-y-1/2 before:content-['/'] before:text-neutral-300 dark:before:text-neutral-600">
+          <li class="inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-tranneutral-y-1/2 before:content-['/'] before:text-neutral-300 dark:before:text-neutral-600">
             <RouterLink to="/" class="inline-flex gap-x-2 text-sm text-neutral-500 hover:text-neutral-800 focus:outline-none focus:text-neutral-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
               Home
             </RouterLink>
           </li>
-          <li class="inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-translate-y-1/2 before:content-['/'] before:text-neutral-300 dark:before:text-neutral-600">
+          <li class="inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-tranneutral-y-1/2 before:content-['/'] before:text-neutral-300 dark:before:text-neutral-600">
             <RouterLink to="/prep" class="inline-flex gap-x-2 text-sm text-neutral-500 hover:text-neutral-800 focus:outline-none focus:text-neutral-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
               Dashboard
             </RouterLink>

@@ -79,7 +79,7 @@ const userStore = useUserStore();
 
 
         <!-- Profile -->
-        <li class="hs-accordion lg:block hidden" id="profile-accordion">
+        <!-- <li class="hs-accordion lg:block hidden" id="profile-accordion">
           <RouterLink to="/user">
             <button
               id="profile"
@@ -107,7 +107,7 @@ const userStore = useUserStore();
              User  Dashboard
             </button>
           </RouterLink>
-        </li>
+        </li> -->
         
        
 

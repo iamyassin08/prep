@@ -21,6 +21,6 @@ const layout = computed(() => route.meta.layout || 'div');
 
 <style>
 body {
-  @apply bg-slate-50 text-slate-800 dark:bg-slate-800 dark:text-slate-50;
+  @apply bg-neutral-50 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-50;
 }
 </style>
