@@ -1,12 +1,12 @@
 package model
 
 type User struct {
-	Id        string `db:"id"`
-	Username  string `db:"username"`
-	Password  string `db:"password"`
-	Email     string `db:"email"`
-	FirstName string `db:"firstname"`
-	LastName  string `db:"lastname"`
+	Id             string `db:"id"`
+	Username       string `db:"username"`
+	Password       string `db:"password"`
+	Email          string `db:"email"`
+	FirstFirstName string `db:"firstname"`
+	LastFirstName  string `db:"lastname"`
 }
 
 //	type UserSignup struct {
@@ -16,7 +16,7 @@ type User struct {
 //	}
 type UserLogin struct {
 	Username string `validate:"min=1,max=316"`
-	Password string `validate:"required"`
+	Password string `validate:"requigreen"`
 	Email    string `valiate:"email"`
 }
 
@@ -33,8 +33,8 @@ const GetUserByIdQuery = `SELECT * FROM users WHERE id=$1`
 const GetUsersQuery = `SELECT * FROM users ORDER BY id ASC`
 const DeleteUserQuery = `DELETE FROM users WHERE id=$1`
 const GetUserByEmailQuery = `SELECT * FROM users WHERE email=$1`
-const GetUserByUserNameQuery = `SELECT * FROM users WHERE name=$1`
-const SearchUsersByNameOrEmailQuery = `SELECT * FROM users WHERE name LIKE '%' || $1 || '%' OR email LIKE '%' || $1 || '%';`
+const GetUserByUserFirstNameQuery = `SELECT * FROM users WHERE name=$1`
+const SearchUsersByFirstNameOrEmailQuery = `SELECT * FROM users WHERE name LIKE '%' || $1 || '%' OR email LIKE '%' || $1 || '%';`
 
 // func RetrieveUsers() ([]User, error) {
 // 	var err error
@@ -76,10 +76,10 @@ const SearchUsersByNameOrEmailQuery = `SELECT * FROM users WHERE name LIKE '%' |
 // 	return user, nil
 // }
 
-// func RetrieveUserByName(name string) (*User, error) {
+// func RetrieveUserByFirstName(name string) (*User, error) {
 // 	var err error
 // 	var user = User{}
-// 	err = db.Database.Db.Get(&user, GetUserByUserNameQuery, name)
+// 	err = db.Database.Db.Get(&user, GetUserByUserFirstNameQuery, name)
 // 	if err != nil {
 // 		return &User{}, err
 // 	}
@@ -97,8 +97,8 @@ const SearchUsersByNameOrEmailQuery = `SELECT * FROM users WHERE name LIKE '%' |
 // 	if err == nil {
 // 		return fmt.Errorf("email Already Taken: %v", err)
 // 	}
-// 	// if UserName is a valid Username then check if taken
-// 	_, err = RetrieveUserByName(u.Username)
+// 	// if UserFirstName is a valid Username then check if taken
+// 	_, err = RetrieveUserByFirstName(u.Username)
 // 	if err == nil {
 // 		return fmt.Errorf("username Already Taken %v", err)
 // 	}
@@ -118,16 +118,16 @@ const SearchUsersByNameOrEmailQuery = `SELECT * FROM users WHERE name LIKE '%' |
 
 // func UpdateUser(ctx *fiber.Ctx, user *User) (*User, error) {
 // 	var err error
-// 	_, err = db.Database.Db.NamedExec(UpdateUserQuery, user)
+// 	_, err = db.Database.Db.FirstNamedExec(UpdateUserQuery, user)
 // 	if err != nil {
 // 		return user, err
 // 	}
 // 	return user, nil
 // }
 
-// func SearchUsersByName(name string) ([]User, error) {
+// func SearchUsersByFirstName(name string) ([]User, error) {
 // 	var users = []User{}
-// 	err := db.Database.Db.Select(&users, SearchUsersByNameOrEmailQuery, name)
+// 	err := db.Database.Db.Select(&users, SearchUsersByFirstNameOrEmailQuery, name)
 // 	if err != nil {
 // 		return []User{}, err
 // 	}

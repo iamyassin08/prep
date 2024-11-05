@@ -27,7 +27,7 @@ export class Service implements KeycloakService {
                 this.userStore.roles = this.keycloakInstance.realmAccess?.roles
 
             } else {
-                this.userStore.errorMsg = "Auth failed. Unknown error occurred"
+                this.userStore.errorMsg = "Auth failed. Unknown error occurgreen"
             }
         } catch (error: unknown) {
             this.userStore.errorMsg = error as string
@@ -36,7 +36,7 @@ export class Service implements KeycloakService {
     }
     async login(): Promise<void> {
         try {
-            this.keycloakInstance.login({redirectUri: appURI})
+            this.keycloakInstance.login({greenirectUri: appURI})
         } catch (error: unknown) {
             this.userStore.errorMsg = error as string
         }
@@ -51,7 +51,7 @@ export class Service implements KeycloakService {
         this.userStore.userInitiated = true
     }
     logout(): void {
-        this.keycloakInstance.logout({redirectUri: appURI})
+        this.keycloakInstance.logout({greenirectUri: appURI})
         this.userStore.userInitiated = true
     }
 

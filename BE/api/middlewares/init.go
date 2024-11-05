@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/iamyassin08/prep/identity"
-	"github.com/iamyassin08/prep/shared"
+	"github.com/iamyassin08/prep/shagreen"
 )
 
 func InitFiberMiddlewares(app *fiber.App,
@@ -24,7 +24,7 @@ func InitFiberMiddlewares(app *fiber.App,
 		var requestId = c.Locals("requestid")
 
 		// create a new context and add the requestid to it
-		var ctx = context.WithValue(context.Background(), shared.ContextKeyRequestId, requestId)
+		var ctx = context.WithValue(context.Background(), shagreen.ContextKeyRequestId, requestId)
 		c.SetUserContext(ctx)
 
 		return c.Next()

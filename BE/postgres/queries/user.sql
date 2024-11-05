@@ -5,59 +5,59 @@ VALUES ($1);
 SELECT * FROM profiles
 WHERE id = $1 LIMIT 1;
 
--- name: AddProductFavorite :exec
-INSERT INTO profile_product_favorites (product_id, profile_id)
+-- name: AddUserFavorite :exec
+INSERT INTO profile_user_favorites (user_id, profile_id)
 VALUES ($1, $2);
--- name: RemoveProductfavorite :exec
-DELETE FROM profile_product_favorites
-WHERE product_id = $1 AND profile_id = $2;
+-- name: RemoveUserfavorite :exec
+DELETE FROM profile_user_favorites
+WHERE user_id = $1 AND profile_id = $2;
 
 -- -- name: GetUserFavorites :many
--- SELECT * FROM profile_product_favorites
+-- SELECT * FROM profile_user_favorites
 -- WHERE profile_id = $1;
 
 -- name: GetUserFavorites :many
 SELECT
-    products.*
+    users.*
 FROM
-    products
+    users
 JOIN
-    profile_product_favorites ON profile_product_favorites.product_id = products.id
+    profile_user_favorites ON profile_user_favorites.user_id = users.id
 WHERE 
-    profile_product_favorites.profile_id = $1;
+    profile_user_favorites.profile_id = $1;
 
 
 
 
 
--- name: AddProductCart :exec
-INSERT INTO profile_product_cart_items (product_id, profile_id, product_quantity)
+-- name: AddUserCart :exec
+INSERT INTO profile_user_cart_items (user_id, profile_id, user_quantity)
 VALUES ($1, $2, $3);
--- name: RemoveProductCart :exec
-DELETE FROM profile_product_cart_items
-WHERE product_id = $1 AND profile_id = $2;
--- name: UpdateProductCartQuantity :exec
-UPDATE profile_product_cart_items
-SET product_quantity = $1
-WHERE product_id = $2 AND profile_id = $3;
+-- name: RemoveUserCart :exec
+DELETE FROM profile_user_cart_items
+WHERE user_id = $1 AND profile_id = $2;
+-- name: UpdateUserCartQuantity :exec
+UPDATE profile_user_cart_items
+SET user_quantity = $1
+WHERE user_id = $2 AND profile_id = $3;
 
--- name: GetProductInUserCart :one
-SELECT * FROM profile_product_cart_items
-WHERE product_id = $1 AND profile_id = $2;
+-- name: GetUserInUserCart :one
+SELECT * FROM profile_user_cart_items
+WHERE user_id = $1 AND profile_id = $2;
 
 -- name: GetUserCartItems :many
 SELECT
-    products.id,
-    products.profile_id,
-    products.title,
-    products.short_description,
-    products.price,
-    profile_product_cart_items.product_quantity AS quantity
+    users.id,
+    users.profile_id,
+    users.title,
+    users.short_description,
+    users.price,
+    profile_user_cart_items.user_quantity AS quantity
 FROM
-    products
+    users
 JOIN
-    profile_product_cart_items ON profile_product_cart_items.product_id = products.id
+    profile_user_cart_items ON profile_user_cart_items.user_id = users.id
 WHERE 
-    profile_product_cart_items.profile_id = $1;
+    profile_user_cart_items.profile_id = $1;
 
 

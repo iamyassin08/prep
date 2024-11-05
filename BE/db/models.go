@@ -9,55 +9,55 @@ import (
 )
 
 
-type Product struct {
+type User struct {
 	ID               int32
-	ProfileID        pgtype.Text
-	Title            string
+	UserID        pgtype.Text
+	FirstName            string
 	Description      pgtype.Text
 	ShortDescription pgtype.Text
-	Price            pgtype.Numeric
+	Email             pgtype.Numeric
 	Quantity         int32
-	DiscountPrice    pgtype.Numeric
-	RegularPrice     pgtype.Numeric
+	DiscountEmail     pgtype.Numeric
+	LastName      pgtype.Numeric
 	CreatedAt        pgtype.Timestamp
 	UpdatedAt        pgtype.Timestamp
 	Type             pgtype.Text
 }
 
 
-type ProductExternalBrand struct {
+type UserExternalBrand struct {
 	ID        int32
-	Name      string
+	FirstName      string
 	LogoUrl   pgtype.Text
 	CreatedAt pgtype.Timestamp
 	UpdatedAt pgtype.Timestamp
 }
 
-type ProductExternalUrl struct {
+type UserExternalUrl struct {
 	ID        int32
-	ProductID int32
+	UserID int32
 	BrandID   int32
 	ImageUrl  string
 	CreatedAt pgtype.Timestamp
 	UpdatedAt pgtype.Timestamp
 }
 
-type ProductImage struct {
+type UserImage struct {
 	ID        int32
-	ProductID int32
+	UserID int32
 	ImageUrl  string
 	CreatedAt pgtype.Timestamp
 }
 
-type ProductImageThumbnail struct {
-	ProductID      int32
-	ProductImageID int32
+type UserImageThumbnail struct {
+	UserID      int32
+	UserImageID int32
 	CreatedAt      pgtype.Timestamp
 }
 
-type ProductTag struct {
+type UserTag struct {
 	TagID     int32
-	ProductID int32
+	UserID int32
 }
 
 type Profile struct {
@@ -70,7 +70,7 @@ type Profile struct {
 
 type ProfileAddress struct {
 	ID           int32
-	ProfileID    string
+	UserID    string
 	AddressLine1 string
 	AddressLine2 pgtype.Text
 	PostalCode   string
@@ -79,22 +79,22 @@ type ProfileAddress struct {
 	PhoneNumber  pgtype.Text
 }
 
-type ProfileProductCartItem struct {
-	ProductID       int32
-	ProfileID       string
-	ProductQuantity int32
+type ProfileUserCartItem struct {
+	UserID       int32
+	UserID       string
+	UserQuantity int32
 	CreatedAt       pgtype.Timestamp
 }
 
-type ProfileProductFavorite struct {
-	ProductID int32
-	ProfileID string
+type ProfileUserFavorite struct {
+	UserID int32
+	UserID string
 	CreatedAt pgtype.Timestamp
 }
 
 type Tag struct {
 	ID        int32
-	TagName   string
+	TagFirstName   string
 	CreatedAt pgtype.Timestamp
 	UpdatedAt pgtype.Timestamp
 }

@@ -2,10 +2,10 @@ import { axiosInstance } from '@/axios'
 
 
 
-// Product Section
-export async function getAllProducts() {
+// User Section
+export async function getAllUsers() {
   try {
-    const res = await axiosInstance.get('api/v1/products')
+    const res = await axiosInstance.get('api/v1/users')
     return res
   } catch (error) {
     console.error('API request failed:', error)
@@ -13,28 +13,28 @@ export async function getAllProducts() {
   }
 }
 
-export async function updateProduct(product: any) {
-  let res = await axiosInstance.patch(`api/v1/products/${product.ID}`, product)
+export async function updateUser(user: any) {
+  let res = await axiosInstance.patch(`api/v1/users/${user.ID}`, user)
   return res.data
 }
 
-export async function getProduct(index: number) {
-  let res = await axiosInstance.get(`api/v1/products/${index}`)
+export async function getUser(index: number) {
+  let res = await axiosInstance.get(`api/v1/users/${index}`)
   if (res.status == 200) {
-    console.log('Successfully Retrieved Product Details')
+    console.log('Successfully Retrieved User Details')
     return res.data
   }
   }
-export async function addProduct(categoryId: number, product: any) {
-  let res = await axiosInstance.post(`api/v1/categories/${categoryId}/products`, product)
+export async function addUser(userId: number, user: any) {
+  let res = await axiosInstance.post(`api/v1/users/${userId}/users`, user)
   if (res.status == 200) {
-    console.log('Successfully Created a Product')
+    console.log('Successfully Created a User')
     return res
   }
 }
-export async function getAllProductImages(index: number) {
+export async function getAllUserImages(index: number) {
   try {
-    const res = await axiosInstance.get(`api/v1/products/${index}/images`)
+    const res = await axiosInstance.get(`api/v1/users/${index}/images`)
     if (res.status === 200) {
       return res.data
     }

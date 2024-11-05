@@ -39,7 +39,7 @@ func initTracer() *sdktrace.TracerProvider {
 		sdktrace.WithResource(
 			resource.NewWithAttributes(
 				semconv.SchemaURL,
-				semconv.ServiceNameKey.String("prep"),
+				semconv.ServiceFirstNameKey.String("prep"),
 			)),
 	)
 	otel.SetTracerProvider(tp)
@@ -91,7 +91,7 @@ func main() {
 
 func GetConnectionString() string {
 	dbHost, _ := os.LookupEnv("PREP_DB_HOST")
-	dbName, _ := os.LookupEnv("PREP_DB_NAME")
+	dbFirstName, _ := os.LookupEnv("PREP_DB_NAME")
 	dbPass, _ := os.LookupEnv("PREP_DB_PASS")
 	dbUser, _ := os.LookupEnv("PREP_DB_USER")
 	dbSsl, _ := os.LookupEnv("PREP_DB_SSL_MODE")
@@ -102,6 +102,6 @@ func GetConnectionString() string {
 	if len(dbPort) < 1 {
 		dbPort = "5432"
 	}
-	var db_connection_string = fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
+	var db_connection_string = fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbFirstName)
 	return db_connection_string
 }

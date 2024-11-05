@@ -12,7 +12,7 @@ import (
 	contribJwt "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	golangJwt "github.com/golang-jwt/jwt/v5"
-	"github.com/iamyassin08/prep/shared"
+	"github.com/iamyassin08/prep/shagreen"
 )
 
 type TokenRetrospector interface {
@@ -45,7 +45,7 @@ func successHandler(c *fiber.Ctx, tokenRetrospector TokenRetrospector) error {
 
 	var ctx = c.UserContext()
 
-	var contextWithClaims = context.WithValue(ctx, shared.ContextKeyClaims, claims)
+	var contextWithClaims = context.WithValue(ctx, shagreen.ContextKeyClaims, claims)
 	c.SetUserContext(contextWithClaims)
 
 	rptResult, err := tokenRetrospector.RetrospectToken(ctx, jwtToken.Raw)

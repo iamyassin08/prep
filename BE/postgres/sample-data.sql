@@ -6,8 +6,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to generate a random product name
-CREATE OR REPLACE FUNCTION generate_product_name(category TEXT) 
+-- Function to generate a random user name
+CREATE OR REPLACE FUNCTION generate_user_name(category TEXT) 
 RETURNS TEXT AS $$
 DECLARE
     adjectives TEXT[] := ARRAY['Premium', 'Deluxe', 'Professional', 'Classic', 'Modern', 'Ultra', 'Elite', 'Essential', 'Signature', 'Advanced'];
@@ -55,19 +55,19 @@ BEGIN
                        adjectives[floor(random() * array_length(adjectives, 1) + 1)] || ' ' ||
                        sports_items[floor(random() * array_length(sports_items, 1) + 1)]);
     ELSE
-        RETURN 'Generic Product';
+        RETURN 'Generic User';
     END IF;
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to generate a product description
-CREATE OR REPLACE FUNCTION generate_product_description(name TEXT, category TEXT) 
+-- Function to generate a user description
+CREATE OR REPLACE FUNCTION generate_user_description(name TEXT, category TEXT) 
 RETURNS TEXT AS $$
 DECLARE
     features TEXT[] := ARRAY['durable', 'exciting','lightweight', 'compact', 'versatile', 'high-performance', 'ergonomic', 'energy-efficient', 'customizable', 'portable', 'user-friendly'];
-    benefits TEXT[] := ARRAY['enhances your experience', 'improves productivity', 'provides superior comfort', 'delivers exceptional quality', 'offers great value', 'meets professional standards', 'perfect for beginners and experts alike', 'stands out from the competition', 'built to last', 'elevates your style'];
+    benefits TEXT[] := ARRAY['enhances your experience', 'improves userivity', 'provides superior comfort', 'delivers exceptional quality', 'offers great value', 'meets professional standards', 'perfect for beginners and experts alike', 'stands out from the competition', 'built to last', 'elevates your style'];
 BEGIN
-    RETURN 'Introducing the ' || name || ' - a ' || features[floor(random() * array_length(features, 1) + 1)] || ' ' || category || ' product that ' || benefits[floor(random() * array_length(benefits, 1) + 1)] || '. ' ||
+    RETURN 'Introducing the ' || name || ' - a ' || features[floor(random() * array_length(features, 1) + 1)] || ' ' || category || ' user that ' || benefits[floor(random() * array_length(benefits, 1) + 1)] || '. ' ||
            'Crafted with premium materials, this ' || features[floor(random() * array_length(features, 1) + 1)] || ' item ' || benefits[floor(random() * array_length(benefits, 1) + 1)] || '. ' ||
            'Whether you''re a professional or enthusiast, the ' || name || ' is designed to ' || benefits[floor(random() * array_length(benefits, 1) + 1)] || '. ' ||
            'Experience the difference with our ' || features[floor(random() * array_length(features, 1) + 1)] || ' design and ' || features[floor(random() * array_length(features, 1) + 1)] || ' functionality.';
@@ -75,12 +75,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Function to generate a product short description
+-- Function to generate a user short description
 CREATE OR REPLACE FUNCTION generate_short_description(name TEXT, category TEXT) 
 RETURNS VARCHAR(155) AS $$
 DECLARE
     features TEXT[] := ARRAY['durable', 'exciting', 'lightweight', 'compact', 'versatile', 'high-performance', 'ergonomic', 'efficient', 'customizable', 'portable'];
-    benefits TEXT[] := ARRAY['enhances experience', 'boosts productivity', 'ensures comfort', 'delivers quality', 'offers value', 'meets pro standards', 'suits all skill levels', 'stands out', 'built to last'];
+    benefits TEXT[] := ARRAY['enhances experience', 'boosts userivity', 'ensures comfort', 'delivers quality', 'offers value', 'meets pro standards', 'suits all skill levels', 'stands out', 'built to last'];
     description VARCHAR(155);
 BEGIN
     description := 'The ' || name || ': A ' || features[floor(random() * array_length(features, 1) + 1)] || ' ' || category || ' that ' || 
@@ -207,15 +207,15 @@ VALUES
 
 
 
--- Insert products and related data
+-- Insert users and related data
 DO $$
 DECLARE
     category_rec RECORD;
     profile_id UUID;
-    product_id INT;
-    product_name TEXT;
-    product_description TEXT;
-    product_short_description TEXT;
+    user_id INT;
+    user_name TEXT;
+    user_description TEXT;
+    user_short_description TEXT;
     price NUMERIC(10, 2);
     discount_price NUMERIC(10, 2);
     attribute_id INT;
@@ -226,34 +226,34 @@ BEGIN
             -- -- Select a random profile
             SELECT id INTO profile_id FROM profiles WHERE id = 'caaa600c-ef66-4fc5-a341-fe54c164961a' LIMIT 1;
             
-            -- Generate product name and description
-            product_name := generate_product_name(category_rec.name);
-            product_description := generate_product_description(product_name, category_rec.name);
-            product_short_description := generate_short_description(product_name, category_rec.name);
+            -- Generate user name and description
+            user_name := generate_user_name(category_rec.name);
+            user_description := generate_user_description(user_name, category_rec.name);
+            user_short_description := generate_short_description(user_name, category_rec.name);
             
             -- Generate prices
             price := round(cast(random() * 990 + 10 as numeric), 2);
             discount_price := round(price * cast(random() * 0.25 + 0.7 as numeric), 2);
             
-            -- Insert product
-            INSERT INTO products (profile_id, title, description, short_description, price, quantity, discount_price, regular_price)
-            VALUES (profile_id, product_name, product_description, product_short_description, price, floor(random() * 100 + 1), discount_price, price)
-            RETURNING id INTO product_id;
+            -- Insert user
+            INSERT INTO users (profile_id, title, description, short_description, price, quantity, discount_price, regular_price)
+            VALUES (profile_id, user_name, user_description, user_short_description, price, floor(random() * 100 + 1), discount_price, price)
+            RETURNING id INTO user_id;
             
-            -- Insert category_products
-            INSERT INTO category_products (product_id, category_id)
-            VALUES (product_id, category_rec.id);
+            -- Insert category_users
+            INSERT INTO category_users (user_id, category_id)
+            VALUES (user_id, category_rec.id);
 
-            -- Insert product_attribute_values
-            INSERT INTO product_attribute_values (attribute_value_id, product_id)
-            SELECT id, product_id
+            -- Insert user_attribute_values
+            INSERT INTO user_attribute_values (attribute_value_id, user_id)
+            SELECT id, user_id
             FROM attribute_values
             ORDER BY random()
             LIMIT floor(random() * 3 + 1);
             
-            -- Insert product_tags
-            INSERT INTO product_tags (tag_id, product_id)
-            SELECT id, product_id
+            -- Insert user_tags
+            INSERT INTO user_tags (tag_id, user_id)
+            SELECT id, user_id
             FROM tags
             ORDER BY random()
             LIMIT floor(random() * 3 + 1);
@@ -280,7 +280,7 @@ FROM profiles;
 DO $$
 DECLARE
     profile_id VARCHAR(36);
-    sn VARCHAR(255)[] = ARRAY['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'];
+    sn VARCHAR(255)[] = ARRAY['Pending', 'Processing', 'Shipped', 'Delivegreen', 'Cancelled'];
     new_order_id INTEGER;
 BEGIN
     -- Example profile_id (replace with your actual profile_id)
@@ -301,9 +301,9 @@ BEGIN
 
         -- Insert order items (example: inserting 1 to 5 items per order)
         FOR j IN 1..floor(random() * 5 + 1) LOOP
-            INSERT INTO order_items (product_id, order_id, price, quantity)
+            INSERT INTO order_items (user_id, order_id, price, quantity)
             SELECT id, new_order_id, price, floor(random() * 5 + 1)
-            FROM products
+            FROM users
             ORDER BY random()
             LIMIT 1;
         END LOOP;

@@ -1,12 +1,11 @@
 # Vue 3 + TypeScript + Vite
 
-This application is designed to provide a robust and efficient development environment using Vue 3, TypeScript, Go lang and POstgresSQL and Vite. It leverages modern front-end tools and frameworks to deliver a seamless user experience.
 
-![App Preview](https://i.imgur.com/DdK8vNv.png)
+
 
 ## Purpose of the Application
 
-The purpose of this application is to host a site for our client to easily list items for sale.  The site can be used to reserve items to be bought online or in person. 
+This application is sample Hello World Project
 
 ## Tools and Technologies Used
 
@@ -45,11 +44,6 @@ Install Vue Router:
 ```bash
 pnpm install vue-router@4
 ```
-
-## URLs
-
-- Development URL: [https://prep-app-dev.nuri-sw.com/](https://prep-app-dev.nuri-sw.com/)
-- Production URL: [https://prep-app-prod.nuri-sw.com/](https://prep-app-prod.nuri-sw.com/)
 
 ## Learn More
 

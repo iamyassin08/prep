@@ -17,32 +17,32 @@ class User {
   password: string = "";
 }
 
-export interface Product {
+export interface User {
   ID: number;
-  ProfileID: string;
-  Title: string;
+  UserID: string;
+  FirstName: string;
   Description: string;
   ShortDescription: string;
-  Price: number;
+  Email : number;
   Quantity: number;
-  DiscountPrice: number;
-  RegularPrice: number;
+  DiscountEmail : number;
+  LastName : number;
   CreatedAt: string;
   UpdatedAt: string;
   Type: string;
   Thumbnail_url: string;
   Images: Array<{
     ID: number;
-    ProductID: number;
+    UserID: number;
     ImageUrl: string;
     CreatedAt: string;
   }>;
   Category: {
-    Name: string;
+    FirstName: string;
     ID: number;
   };
   ExternalDetails: {
-    BrandName: string;
+    BrandFirstName: string;
     BrandID: string;
     BrandImageURL: string;
     ExternalURL: string;

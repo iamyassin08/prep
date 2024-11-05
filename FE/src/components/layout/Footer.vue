@@ -1,110 +1,50 @@
 <script setup lang="ts">
-import { getAllCategories } from "@/services/api";
-import { onBeforeMount, ref } from "vue";
 
-const categoryLoading = ref(true);
-const categoryList: any = ref([]);
-
-onBeforeMount(async () => {
-  try {
-    const response = await getAllCategories();
-    if (response && response.status === 200) {
-      categoryList.value = response.data;
-    }
-  } catch (error) {
-    console.error(error);
-  } finally {
-    if (categoryList.value.length < 1) {
-      console.error("Could not complete request");
-    } else {
-      categoryLoading.value = false;
-    }
-  }
-});
-
-const getTopLevelListWithChildren = () => {
-  let topLevelCategories: any[] = [];
-  for (let i = 0; i < categoryList.value.length; i++) {
-    if (categoryList.value[i].ParentID == null && categoryHasChildren(categoryList.value[i].ID)) {
-      topLevelCategories.push(categoryList.value[i]);
-    }
-  }
-  return topLevelCategories;
-};
-
-const categoryHasChildren = (categoryID: number) => {
-  for (let i = 0; i < categoryList.value.length; i++) {
-    if (categoryList.value[i].ParentID == categoryID) {
-      return true;
-    }
-  }
-  return false;
-};
-
-const getChildCategoryList = (parentID: number) => {
-  let childCategories: any[] = [];
-  for (let i = 0; i < categoryList.value.length; i++) {
-    if (categoryList.value[i].ParentID == parentID) {
-      childCategories.push(categoryList.value[i]);
-    }
-  }
-  return childCategories;
-};
-
-const getCategoriesWithoutChildren = () => {
-  let categoriesWithoutChildren: any[] = [];
-  for (let i = 0; i < categoryList.value.length; i++) {
-    if (!categoryHasChildren(categoryList.value[i].ID) && categoryList.value[i].ParentID === null) {
-      categoriesWithoutChildren.push(categoryList.value[i]);
-    }
-  }
-  return categoriesWithoutChildren;
-};
 </script>
 
 <template>
-  <!-- ========== FOOTER ========== -->
-  <footer class="max-w-[100rem] mx-auto py-10 px-4 sm:px-6 lg:px-8 dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70 ">
-    <!-- Grid -->
-    <div class="grid gap-8 lg:grid-cols-5">
-      <div class="col-span-1">
-        <RouterLink to="/" class="flex items-center text-xl font-bold text-red-500 transition-transform duration-300 transform-gpu hover:scale-105" aria-label="Brand">
-          <span>A&B Harmony Haul</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-red-500">
-            <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
-            <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>
-          </svg>
+  <footer class="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-5">
+      <!-- Brand Section -->
+      <div class="flex items-center flex-shrink-0 w-full md:w-auto mb-4 md:mb-0 mr-4">
+        <RouterLink
+          to="/"
+          class="flex items-center gap-x-1 text-xl font-bold text-green-500 transition-transform duration-300 transform-gpu hover:scale-105"
+          aria-label="Brand"
+        >
+          <span class="whitespace-nowrap hidden xl:block">Hello World</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-earth"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>
         </RouterLink>
-        <!-- Static Footer Links -->
-        <div class="mt-3 text-base transition-transform duration-300 transform-gpu hover:scale-105">
-          <p><RouterLink class="text-gray-900 hover:text-gray-800 dark:text-white dark:hover:text-red-500 font-bold transition-transform duration-300 transform-gpu hover:scale-105" to="/">Home</RouterLink></p>
-          <p><RouterLink class="text-gray-900 hover:text-gray-800 dark:text-white dark:hover:text-red-500 transition-transform duration-300 transform-gpu hover:scale-105" to="/productlist">Products</RouterLink></p>
-          <p><RouterLink class="text-gray-900 hover:text-gray-800 dark:text-white dark:hover:text-red-500 transition-transform duration-300 transform-gpu hover:scale-105" to="/about">About Us</RouterLink></p>
-          <p><RouterLink class="text-gray-900 hover:text-gray-800 dark:text-white dark:hover:text-red-500 transition-transform duration-300 transform-gpu hover:scale-105" to="/contact">Contact</RouterLink></p>
-        </div>
       </div>
 
-      <!-- Dynamic Categories -->
-      <div v-for="category in getTopLevelListWithChildren()" :key="category.ID" class="col-span-1">
-        <div class="mt-8 text-base transition-transform duration-300 transform-gpu hover:scale-105">
-          <p class="font-bold">{{ category.Name }}</p>
-          <div v-for="child in getChildCategoryList(category.ID)" :key="child.ID">
-            <p><RouterLink class="inline-flex gap-x-2 text-gray-900 hover:text-gray-800 dark:text-white dark:hover:text-red-500" :to="'/category/' + child.ID">{{ child.Name }}</RouterLink></p>
-          </div>
-        </div>
-      </div>
+      <!-- Navigation Links -->
+      <nav>
+        <ul class="text-center">
+          <li class="inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-translate-y-1/2 before:content-['/'] before:text-neutral-300 dark:before:text-neutral-600">
+            <RouterLink to="/" class="inline-flex gap-x-2 text-sm text-neutral-500 hover:text-neutral-800 focus:outline-none focus:text-neutral-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+              Home
+            </RouterLink>
+          </li>
+          <li class="inline-block relative pe-8 last:pe-0 last-of-type:before:hidden before:absolute before:top-1/2 before:end-3 before:-translate-y-1/2 before:content-['/'] before:text-neutral-300 dark:before:text-neutral-600">
+            <RouterLink to="/prep" class="inline-flex gap-x-2 text-sm text-neutral-500 hover:text-neutral-800 focus:outline-none focus:text-neutral-800 dark:text-neutral-500 dark:hover:text-neutral-200 dark:focus:text-neutral-200">
+              Dashboard
+            </RouterLink>
+          </li>
+        </ul>
+      </nav>
 
-      <!-- Categories Without Children -->
-      <div class="col-span-1">
-        <div class="mt-8 text-base transition-transform duration-300 transform-gpu hover:scale-105">
-          <p class="font-bold">Other </p>
-          <div v-for="category in getCategoriesWithoutChildren()" :key="category.ID">
-            <RouterLink :to="'/category/' + category.ID" class="text-gray-900 hover:text-gray-800 dark:text-white dark:hover:text-red-500">{{ category.Name }}</RouterLink>
-          </div>
-        </div>
+      <!-- Social Media Section -->
+      <div class="md:text-end space-x-2">
+        <a class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-neutral-500 hover:bg-neutral-50 focus:outline-none focus:bg-neutral-50 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">
+          <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+          </svg>
+        </a>
       </div>
     </div>
-    <!-- End Grid -->
+    <!-- End Grid Layout -->
   </footer>
-  <!-- ========== END FOOTER ========== -->
 </template>
+
+

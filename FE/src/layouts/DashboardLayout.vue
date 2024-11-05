@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppFooter from "@/components/layout/Footer.vue";
 import AppHeader from "@/components/layout/TheHeader.vue";
-import Sidebar from "@/components/user/Sidebar.vue";
+import Sidebar from "@/components//Sidebar.vue";
 import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 
@@ -22,35 +22,18 @@ const userStore = useUserStore();
                     </h1>
 
                     <!-- Calendar Button -->
-          <div class="flex space-x-2">
-            <RouterLink
-              v-if="userStore.isSeller "
-              :to="'/user/categoryselection'"
-              type="button"
-              class="py-2 px-3 inline-flex justify-center items-center text-start bg-white/10 border border-transparent text-white text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-white/20 focus:outline-none focus:ring-1 focus:ring-neutral-600"
-            >
-              Sell Something New
-            </RouterLink>
-
-            <RouterLink
-              v-if="userStore.isAdmin"
-              :to="'/admin/createcategory'"
-              type="button"
-              class="py-2 px-3 inline-flex justify-center items-center text-start bg-white/10 border border-transparent text-white text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-white/20 focus:outline-none focus:ring-1 focus:ring-neutral-600"
-            >
-              Create a Category
-            </RouterLink>
-               <!-- End Calendar Button -->
-              </div>
+        
             </div>
             <!-- End Header -->
 
             <!-- Content -->
             <div class="p-2 sm:p-5 md:pt-5">
-                <RouterLinkside id="hs-pro-sidebar"
+                <RouterLink side id="hs-pro-sidebar"
                     class="w-[260px] hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden sticky inset-y-0 start-0 z-[60] h-full top-0 bg-white border border-neutral-200 lg:block lg:absolute lg:start-auto lg:z-40 lg:translate-x-0 lg:inset-y-auto lg:h-[700px] lg:rounded-xl dark:bg-neutral-800 dark:border-neutral-700"
                     tabindex="-1" aria-label="Mini Sidebar">
+                    
                     <Sidebar />
+                  
                     <div class="lg:hidden absolute top-3 -end-3 z-10">
                         <!-- Sidebar Close -->
                         <button type="button"
@@ -67,7 +50,7 @@ const userStore = useUserStore();
                         </button>
                         <!-- End Sidebar Close -->
                     </div>
-                </RouterLinkside>
+                </RouterLink>
                 <div class="lg:ps-[280px] space-y-5">
                     <div
                         class="p-4 flex flex-col min-h-screen  bg-white border border-neutral-200 shadow-sm rounded-xl dark:bg-neutral-800 dark:border-neutral-700">
@@ -79,5 +62,4 @@ const userStore = useUserStore();
         </div>
     </main>
     <AppFooter />
-    <AppScrollUp />
 </template>

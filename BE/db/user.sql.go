@@ -11,34 +11,34 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const addProductCart = `-- name: AddProductCart :exec
-INSERT INTO profile_product_cart_items (product_id, profile_id, product_quantity)
+const addUserCart = `-- name: AddUserCart :exec
+INSERT INTO profile_user_cart_items (user_id, profile_id, user_quantity)
 VALUES ($1, $2, $3)
 `
 
-type AddProductCartParams struct {
-	ProductID       int32
-	ProfileID       string
-	ProductQuantity int32
+type AddUserCartParams struct {
+	UserID       int32
+	UserID       string
+	UserQuantity int32
 }
 
-func (q *Queries) AddProductCart(ctx context.Context, arg AddProductCartParams) error {
-	_, err := q.db.Exec(ctx, addProductCart, arg.ProductID, arg.ProfileID, arg.ProductQuantity)
+func (q *Queries) AddUserCart(ctx context.Context, arg AddUserCartParams) error {
+	_, err := q.db.Exec(ctx, addUserCart, arg.UserID, arg.UserID, arg.UserQuantity)
 	return err
 }
 
-const addProductFavorite = `-- name: AddProductFavorite :exec
-INSERT INTO profile_product_favorites (product_id, profile_id)
+const addUserFavorite = `-- name: AddUserFavorite :exec
+INSERT INTO profile_user_favorites (user_id, profile_id)
 VALUES ($1, $2)
 `
 
-type AddProductFavoriteParams struct {
-	ProductID int32
-	ProfileID string
+type AddUserFavoriteParams struct {
+	UserID int32
+	UserID string
 }
 
-func (q *Queries) AddProductFavorite(ctx context.Context, arg AddProductFavoriteParams) error {
-	_, err := q.db.Exec(ctx, addProductFavorite, arg.ProductID, arg.ProfileID)
+func (q *Queries) AddUserFavorite(ctx context.Context, arg AddUserFavoriteParams) error {
+	_, err := q.db.Exec(ctx, addUserFavorite, arg.UserID, arg.UserID)
 	return err
 }
 
@@ -52,23 +52,23 @@ func (q *Queries) AddUserProfile(ctx context.Context, id string) error {
 	return err
 }
 
-const getProductInUserCart = `-- name: GetProductInUserCart :one
-SELECT product_id, profile_id, product_quantity, created_at FROM profile_product_cart_items
-WHERE product_id = $1 AND profile_id = $2
+const getUserInUserCart = `-- name: GetUserInUserCart :one
+SELECT user_id, profile_id, user_quantity, created_at FROM profile_user_cart_items
+WHERE user_id = $1 AND profile_id = $2
 `
 
-type GetProductInUserCartParams struct {
-	ProductID int32
-	ProfileID string
+type GetUserInUserCartParams struct {
+	UserID int32
+	UserID string
 }
 
-func (q *Queries) GetProductInUserCart(ctx context.Context, arg GetProductInUserCartParams) (ProfileProductCartItem, error) {
-	row := q.db.QueryRow(ctx, getProductInUserCart, arg.ProductID, arg.ProfileID)
-	var i ProfileProductCartItem
+func (q *Queries) GetUserInUserCart(ctx context.Context, arg GetUserInUserCartParams) (ProfileUserCartItem, error) {
+	row := q.db.QueryRow(ctx, getUserInUserCart, arg.UserID, arg.UserID)
+	var i ProfileUserCartItem
 	err := row.Scan(
-		&i.ProductID,
-		&i.ProfileID,
-		&i.ProductQuantity,
+		&i.UserID,
+		&i.UserID,
+		&i.UserQuantity,
 		&i.CreatedAt,
 	)
 	return i, err
@@ -76,26 +76,26 @@ func (q *Queries) GetProductInUserCart(ctx context.Context, arg GetProductInUser
 
 const getUserCartItems = `-- name: GetUserCartItems :many
 SELECT
-    products.id,
-    products.profile_id,
-    products.title,
-    products.short_description,
-    products.price,
-    profile_product_cart_items.product_quantity AS quantity
+    users.id,
+    users.profile_id,
+    users.title,
+    users.short_description,
+    users.price,
+    profile_user_cart_items.user_quantity AS quantity
 FROM
-    products
+    users
 JOIN
-    profile_product_cart_items ON profile_product_cart_items.product_id = products.id
+    profile_user_cart_items ON profile_user_cart_items.user_id = users.id
 WHERE 
-    profile_product_cart_items.profile_id = $1
+    profile_user_cart_items.profile_id = $1
 `
 
 type GetUserCartItemsRow struct {
 	ID               int32
-	ProfileID        pgtype.Text
-	Title            string
+	UserID        pgtype.Text
+	FirstName            string
 	ShortDescription pgtype.Text
-	Price            pgtype.Numeric
+	Email             pgtype.Numeric
 	Quantity         int32
 }
 
@@ -110,10 +110,10 @@ func (q *Queries) GetUserCartItems(ctx context.Context, profileID string) ([]Get
 		var i GetUserCartItemsRow
 		if err := rows.Scan(
 			&i.ID,
-			&i.ProfileID,
-			&i.Title,
+			&i.UserID,
+			&i.FirstName,
 			&i.ShortDescription,
-			&i.Price,
+			&i.Email ,
 			&i.Quantity,
 		); err != nil {
 			return nil, err
@@ -129,37 +129,37 @@ func (q *Queries) GetUserCartItems(ctx context.Context, profileID string) ([]Get
 const getUserFavorites = `-- name: GetUserFavorites :many
 
 SELECT
-    products.id, products.profile_id, products.title, products.description, products.short_description, products.price, products.quantity, products.discount_price, products.regular_price, products.created_at, products.updated_at, products.type
+    users.id, users.profile_id, users.title, users.description, users.short_description, users.price, users.quantity, users.discount_price, users.regular_price, users.created_at, users.updated_at, users.type
 FROM
-    products
+    users
 JOIN
-    profile_product_favorites ON profile_product_favorites.product_id = products.id
+    profile_user_favorites ON profile_user_favorites.user_id = users.id
 WHERE 
-    profile_product_favorites.profile_id = $1
+    profile_user_favorites.profile_id = $1
 `
 
 // -- name: GetUserFavorites :many
-// SELECT * FROM profile_product_favorites
+// SELECT * FROM profile_user_favorites
 // WHERE profile_id = $1;
-func (q *Queries) GetUserFavorites(ctx context.Context, profileID string) ([]Product, error) {
+func (q *Queries) GetUserFavorites(ctx context.Context, profileID string) ([]User, error) {
 	rows, err := q.db.Query(ctx, getUserFavorites, profileID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Product
+	var items []User
 	for rows.Next() {
-		var i Product
+		var i User
 		if err := rows.Scan(
 			&i.ID,
-			&i.ProfileID,
-			&i.Title,
+			&i.UserID,
+			&i.FirstName,
 			&i.Description,
 			&i.ShortDescription,
-			&i.Price,
+			&i.Email ,
 			&i.Quantity,
-			&i.DiscountPrice,
-			&i.RegularPrice,
+			&i.DiscountEmail ,
+			&i.LastName ,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.Type,
@@ -192,49 +192,49 @@ func (q *Queries) GetUserProfile(ctx context.Context, id string) (Profile, error
 	return i, err
 }
 
-const removeProductCart = `-- name: RemoveProductCart :exec
-DELETE FROM profile_product_cart_items
-WHERE product_id = $1 AND profile_id = $2
+const removeUserCart = `-- name: RemoveUserCart :exec
+DELETE FROM profile_user_cart_items
+WHERE user_id = $1 AND profile_id = $2
 `
 
-type RemoveProductCartParams struct {
-	ProductID int32
-	ProfileID string
+type RemoveUserCartParams struct {
+	UserID int32
+	UserID string
 }
 
-func (q *Queries) RemoveProductCart(ctx context.Context, arg RemoveProductCartParams) error {
-	_, err := q.db.Exec(ctx, removeProductCart, arg.ProductID, arg.ProfileID)
+func (q *Queries) RemoveUserCart(ctx context.Context, arg RemoveUserCartParams) error {
+	_, err := q.db.Exec(ctx, removeUserCart, arg.UserID, arg.UserID)
 	return err
 }
 
-const removeProductfavorite = `-- name: RemoveProductfavorite :exec
-DELETE FROM profile_product_favorites
-WHERE product_id = $1 AND profile_id = $2
+const removeUserfavorite = `-- name: RemoveUserfavorite :exec
+DELETE FROM profile_user_favorites
+WHERE user_id = $1 AND profile_id = $2
 `
 
-type RemoveProductfavoriteParams struct {
-	ProductID int32
-	ProfileID string
+type RemoveUserfavoriteParams struct {
+	UserID int32
+	UserID string
 }
 
-func (q *Queries) RemoveProductfavorite(ctx context.Context, arg RemoveProductfavoriteParams) error {
-	_, err := q.db.Exec(ctx, removeProductfavorite, arg.ProductID, arg.ProfileID)
+func (q *Queries) RemoveUserfavorite(ctx context.Context, arg RemoveUserfavoriteParams) error {
+	_, err := q.db.Exec(ctx, removeUserfavorite, arg.UserID, arg.UserID)
 	return err
 }
 
-const updateProductCartQuantity = `-- name: UpdateProductCartQuantity :exec
-UPDATE profile_product_cart_items
-SET product_quantity = $1
-WHERE product_id = $2 AND profile_id = $3
+const updateUserCartQuantity = `-- name: UpdateUserCartQuantity :exec
+UPDATE profile_user_cart_items
+SET user_quantity = $1
+WHERE user_id = $2 AND profile_id = $3
 `
 
-type UpdateProductCartQuantityParams struct {
-	ProductQuantity int32
-	ProductID       int32
-	ProfileID       string
+type UpdateUserCartQuantityParams struct {
+	UserQuantity int32
+	UserID       int32
+	UserID       string
 }
 
-func (q *Queries) UpdateProductCartQuantity(ctx context.Context, arg UpdateProductCartQuantityParams) error {
-	_, err := q.db.Exec(ctx, updateProductCartQuantity, arg.ProductQuantity, arg.ProductID, arg.ProfileID)
+func (q *Queries) UpdateUserCartQuantity(ctx context.Context, arg UpdateUserCartQuantityParams) error {
+	_, err := q.db.Exec(ctx, updateUserCartQuantity, arg.UserQuantity, arg.UserID, arg.UserID)
 	return err
 }

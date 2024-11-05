@@ -34,26 +34,14 @@ export const useUserStore = defineStore({
         return false
       }
     },
-    isSeller(): boolean {
-      if (this.roles?.includes('seller')) {
-        return true
-      } else {
-        return false
-      }
-    },
-    isBuyer(): boolean {
-      if (this.roles?.includes('buyer')) {
-        return true
-      } else {
-        return false
-      }
-    },
+    // isSeller(): boolean {
+    //   if (this.roles?.includes('seller')) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // },
+    
   },
-// TODO update this:
-  // actions: {
-  //     addRole(role: string) : void {
-  //         this.roles.push(role)
-  //     },
 
-  // }
 })

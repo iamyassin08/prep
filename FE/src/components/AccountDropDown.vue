@@ -25,8 +25,8 @@ onBeforeMount( async ()=> {
 <template>
   <!-- Account -->
    <div v-if="!userStore.userInitiated" class="flex gap-4 animate-pulse">
-    <span class="size-12 block bg-gray-200 rounded-full"></span>
-      <span class="size-12 block bg-gray-200 rounded-full"></span>
+    <span class="size-12 block bg-neutral-200 rounded-full"></span>
+      <span class="size-12 block bg-neutral-200 rounded-full"></span>
    </div>
   
  <div v-else>
@@ -37,7 +37,7 @@ onBeforeMount( async ()=> {
     <button
       id="hs-pro-dnad"
       type="button"
-      class="inline-flex flex-shrink-0 items-center gap-x-3 text-start rounded-full focus:outline-none focus:bg-gray-100 dark:focus:bg-neutral-800"
+      class="inline-flex flex-shrink-0 items-center gap-x-3 text-start rounded-full focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-800"
     >
       <img
         class="flex-shrink-0 w-[38px] h-[38px] rounded-full"
@@ -51,9 +51,9 @@ onBeforeMount( async ()=> {
       class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-60 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900 dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)]"
       aria-labelledby="hs-pro-dnad"
     >
-      <div class="p-1 border-b border-gray-200 dark:border-neutral-800">
+      <div class="p-1 border-b border-neutral-200 dark:border-neutral-800">
         <RouterLink
-          class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm  hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+          class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm  hover:bg-neutral-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-neutral-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
           to="#"
         >
           <img
@@ -77,7 +77,7 @@ onBeforeMount( async ()=> {
       <div class="p-1 ">
         <RouterLink
           to="/user/dashboard"
-          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-neutral-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-neutral-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
         >
           <svg
             class="fill-current"
@@ -101,7 +101,7 @@ onBeforeMount( async ()=> {
 
         <RouterLink
           to="/admindashboard"
-          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-neutral-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-neutral-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +123,7 @@ onBeforeMount( async ()=> {
 
         <RouterLink
           to="/user/settings"
-          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-neutral-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-neutral-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
         >
           <svg
             class="fill-current"
@@ -146,13 +146,13 @@ onBeforeMount( async ()=> {
         </RouterLink>
       </div>
 
-      <div class="px-4 py-3.5 border-y border-gray-200 dark:border-neutral-800 font-bold text-red-500 dark:text-white ">
+      <div class="px-4 py-3.5 border-y border-neutral-200 dark:border-neutral-800 font-bold text-green-500 dark:text-white ">
       
         <span class="relative flex items-center">
           <span class=" absolute inline-flex h-full w-full rounded-full  opacity-75"></span>
           <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500">
           </span>
-          <p class="ml-2 text-sm text-black dark:text-gray-100">Online</p>
+          <p class="ml-2 text-sm text-black dark:text-neutral-100">Online</p>
         </span>
 
       </div>
@@ -162,7 +162,7 @@ onBeforeMount( async ()=> {
       <div class="p-1">
         <RouterLink
           @click="keycloakService.logout()"
-          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+          class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm  hover:bg-neutral-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-neutral-100  dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
           to="#"
         >
           Sign Out
@@ -175,7 +175,7 @@ onBeforeMount( async ()=> {
     <button
       @click="keycloakService.login()"
       type="button"
-      class="flex items-center w-full  hover:text-gray-400 font-medium rounded-md dark:hover:text-neutral-500"
+      class="flex items-center w-full  hover:text-neutral-400 font-medium rounded-md dark:hover:text-neutral-500"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +198,7 @@ onBeforeMount( async ()=> {
     <button
       @click="keycloakService.register()"
       type="button"
-      class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent  bg-red-500 text-white dark:bg-black dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+      class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent  bg-green-500 text-white dark:bg-black dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
     >
       Signup
       <svg

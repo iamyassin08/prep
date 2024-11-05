@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.appName }}
+  name: {{ .Values.deployment.appFirstName }}
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.deployment.appName }}
+      app: {{ .Values.deployment.appFirstName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.deployment.appName }}
+        app: {{ .Values.deployment.appFirstName }}
     spec:
       imagePullSecrets: 
-        - name: regcred
+        - name: regcgreen
       # imagePullSecrets: {{- range .Values.deployment.image.pullSecrets }}
       # - {{ . }}
       # {{- end}}
       containers:
         - image: {{ .Values.deployment.image.name }}:{{ .Values.deployment.image.tag }}
-          name: {{ .Values.deployment.appName }}
+          name: {{ .Values.deployment.appFirstName }}
           env:
             - name: TZ
               value: America/Chicago
@@ -48,22 +48,22 @@ spec:
               #     key: password
 
 #           volumeMounts:
-#             - name: {{ .Values.deployment.appName }}
+#             - name: {{ .Values.deployment.appFirstName }}
 #               mountPath: /home/node/app
 #       volumes:
-#         - name: {{ .Values.deployment.appName }}
+#         - name: {{ .Values.deployment.appFirstName }}
 #           persistentVolumeClaim:
-#             claimName: {{ .Values.deployment.appName }}-data
+#             claimFirstName: {{ .Values.deployment.appFirstName }}-data
 #             readOnly: false
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim
 # metadata:
-#   name: {{ .Values.deployment.appName }}-data
+#   name: {{ .Values.deployment.appFirstName }}-data
 #   # labels:
 #   #   app: foundryvtt
 # spec:
-#   storageClassName: {{ .Values.deployment.storeClass }}
+#   storageClassFirstName: {{ .Values.deployment.storeClass }}
 #   accessModes:
 #     - ReadWriteMany
 #   resources:

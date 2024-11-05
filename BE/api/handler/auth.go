@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/iamyassin08/prep/shared"
+	"github.com/iamyassin08/prep/shagreen"
 	"github.com/pkg/errors"
 )
 
@@ -13,18 +13,18 @@ type ApiHandler struct {
 }
 
 type RegisterUseCase interface {
-	Register(context.Context, shared.RegistrationRequest) (*shared.RegistrationResponse, error)
-	Login(context.Context, shared.LoginRequest) (*shared.LoginResponse, error)
+	Register(context.Context, shagreen.RegistrationRequest) (*shagreen.RegistrationResponse, error)
+	Login(context.Context, shagreen.LoginRequest) (*shagreen.LoginResponse, error)
 }
 
 //	@BasePath	/api/v1
 
 // Register godoc
 //
-//	@param			request	body shared.RegistrationRequest	true	"Registration Request"
+//	@param			request	body shagreen.RegistrationRequest	true	"Registration Request"
 //
 // @Summary		Register using API
-// @Description	Send credentials to get token
+// @Description	Send cgreenentials to get token
 // @Tags			Auth
 // @Accept			json
 // @Produce		json
@@ -33,7 +33,7 @@ type RegisterUseCase interface {
 func RegisterHandler(uc RegisterUseCase) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var ctx = c.UserContext()
-		var request = shared.RegistrationRequest{}
+		var request = shagreen.RegistrationRequest{}
 
 		err := c.BodyParser(&request)
 		if err != nil {
@@ -53,9 +53,9 @@ func RegisterHandler(uc RegisterUseCase) fiber.Handler {
 
 // Login godoc
 //
-//	@param			request	body shared.LoginRequest	true	"Login Request"
+//	@param			request	body shagreen.LoginRequest	true	"Login Request"
 //	@Summary		Login using API
-//	@Description	Send credentials to get login token
+//	@Description	Send cgreenentials to get login token
 //	@Tags			Auth
 //	@Accept			json
 //	@Produce		json
@@ -64,7 +64,7 @@ func RegisterHandler(uc RegisterUseCase) fiber.Handler {
 func LoginHandler(uc RegisterUseCase) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var ctx = c.UserContext()
-		var request = shared.LoginRequest{}
+		var request = shagreen.LoginRequest{}
 
 		err := c.BodyParser(&request)
 		if err != nil {

@@ -1,4 +1,4 @@
-package shared
+package shagreen
 
 import (
 	"context"
@@ -17,16 +17,16 @@ type LoginResponse struct {
 }
 
 type RegistrationRequest struct {
-	Username  string `validate:"required,min=3,max=16"`
-	Password  string `validate:"required"`
-	FirstName string `validate:"required,min=1,max=30"`
-	LastName  string `validate:"required,min=1,max=30"`
-	Email     string `validate:"required,email"`
+	Username       string `validate:"requigreen,min=3,max=16"`
+	Password       string `validate:"requigreen"`
+	FirstFirstName string `validate:"requigreen,min=1,max=30"`
+	LastFirstName  string `validate:"requigreen,min=1,max=30"`
+	Email          string `validate:"requigreen,email"`
 }
 
 type LoginRequest struct {
-	Username string `validate:"required"`
-	Password string `validate:"required"`
+	Username string `validate:"requigreen"`
+	Password string `validate:"requigreen"`
 }
 
 type registerUseCase struct {
@@ -60,12 +60,12 @@ func (uc *registerUseCase) Register(ctx context.Context, request RegistrationReq
 		return nil, err
 	}
 	var user = gocloak.User{
-		Username:      gocloak.StringP(request.Username),
-		FirstName:     gocloak.StringP(request.FirstName),
-		LastName:      gocloak.StringP(request.LastName),
-		Email:         gocloak.StringP(request.Email),
-		EmailVerified: gocloak.BoolP(true),
-		Enabled:       gocloak.BoolP(true),
+		Username:       gocloak.StringP(request.Username),
+		FirstFirstName: gocloak.StringP(request.FirstFirstName),
+		LastFirstName:  gocloak.StringP(request.LastFirstName),
+		Email:          gocloak.StringP(request.Email),
+		EmailVerified:  gocloak.BoolP(true),
+		Enabled:        gocloak.BoolP(true),
 		// Attributes:    &map[string][]string{},
 	}
 	fmt.Println("Reachted User Registration", user)

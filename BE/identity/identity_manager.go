@@ -58,10 +58,10 @@ func (im *identityManager) CreateUser(ctx context.Context, user gocloak.User, pa
 		return nil, errors.Wrap(err, "unable to set the password for the user")
 	}
 
-	var roleNameLowerCase = strings.ToLower(role)
-	roleKeycloak, err := client.GetRealmRole(ctx, token.AccessToken, im.realm, roleNameLowerCase)
+	var roleFirstNameLowerCase = strings.ToLower(role)
+	roleKeycloak, err := client.GetRealmRole(ctx, token.AccessToken, im.realm, roleFirstNameLowerCase)
 	if err != nil {
-		return nil, errors.Wrap(err, fmt.Sprintf("unable to get role by name: '%v'", roleNameLowerCase))
+		return nil, errors.Wrap(err, fmt.Sprintf("unable to get role by name: '%v'", roleFirstNameLowerCase))
 	}
 	err = client.AddRealmRoleToUser(ctx, token.AccessToken, im.realm, userId, []gocloak.Role{
 		*roleKeycloak,

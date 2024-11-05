@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.appName }}
+  name: {{ .Values.deployment.appFirstName }}
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.deployment.appName }}
+      app: {{ .Values.deployment.appFirstName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.deployment.appName }}
+        app: {{ .Values.deployment.appFirstName }}
     spec:
       imagePullSecrets: 
-        - name: regcred
+        - name: regcgreen
       # imagePullSecrets: {{- range .Values.deployment.image.pullSecrets }}
       # - {{ . }}
       # {{- end}}
       containers:
         - image: {{ .Values.deployment.image.name }}:{{ .Values.deployment.image.tag }}
-          name: {{ .Values.deployment.appName }}
+          name: {{ .Values.deployment.appFirstName }}
           env:
             - name: MINIO_ENDPOINT
               value: s3-api.nuri-sw.com
@@ -46,13 +46,13 @@ spec:
             - name: PREP_DB_USER
               value: prep
             - name: PREP_DB_HOST
-              value: {{ .Values.deployment.appName }}-postgresql
+              value: {{ .Values.deployment.appFirstName }}-postgresql
             # - name: PREP_DB_PORT
             #   value: 5432
             - name: PREP_DB_PASS
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.deployment.appName }}-postgresql
+                  name: {{ .Values.deployment.appFirstName }}-postgresql
                   key: password
           readinessProbe:
             httpGet:

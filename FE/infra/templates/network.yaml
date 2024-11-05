@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.deployment.appName }}
+  name: {{ .Values.deployment.appFirstName }}
 spec:
   selector:
-    app: {{ .Values.deployment.appName }}
+    app: {{ .Values.deployment.appFirstName }}
   ports:
   - port: 5173
     targetPort: 5173
@@ -29,5 +29,5 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: {{ .Values.deployment.appName }}
+    - name: {{ .Values.deployment.appFirstName }}
       port: 5173
