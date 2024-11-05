@@ -13,88 +13,21 @@ type User struct {
 	ID               int32
 	UserID        pgtype.Text
 	FirstName            string
-	Description      pgtype.Text
-	ShortDescription pgtype.Text
 	Email             pgtype.Numeric
-	Quantity         int32
-	DiscountEmail     pgtype.Numeric
 	LastName      pgtype.Numeric
-	CreatedAt        pgtype.Timestamp
-	UpdatedAt        pgtype.Timestamp
-	Type             pgtype.Text
+
 }
 
 
-type UserExternalBrand struct {
-	ID        int32
-	FirstName      string
-	LogoUrl   pgtype.Text
-	CreatedAt pgtype.Timestamp
-	UpdatedAt pgtype.Timestamp
-}
 
-type UserExternalUrl struct {
-	ID        int32
-	UserID int32
-	BrandID   int32
-	ImageUrl  string
-	CreatedAt pgtype.Timestamp
-	UpdatedAt pgtype.Timestamp
-}
 
-type UserImage struct {
-	ID        int32
-	UserID int32
-	ImageUrl  string
-	CreatedAt pgtype.Timestamp
-}
 
-type UserImageThumbnail struct {
-	UserID      int32
-	UserImageID int32
-	CreatedAt      pgtype.Timestamp
-}
 
-type UserTag struct {
-	TagID     int32
-	UserID int32
-}
 
-type Profile struct {
-	ID           string
-	CreatedAt    pgtype.Timestamp
-	ThumbnailUrl pgtype.Text
-	Email        pgtype.Text
-	Username     pgtype.Text
-}
 
-type ProfileAddress struct {
-	ID           int32
-	UserID    string
-	AddressLine1 string
-	AddressLine2 pgtype.Text
-	PostalCode   string
-	Country      string
-	City         string
-	PhoneNumber  pgtype.Text
-}
 
-type ProfileUserCartItem struct {
-	UserID       int32
-	UserID       string
-	UserQuantity int32
-	CreatedAt       pgtype.Timestamp
-}
 
-type ProfileUserFavorite struct {
-	UserID int32
-	UserID string
-	CreatedAt pgtype.Timestamp
-}
 
-type Tag struct {
-	ID        int32
-	TagFirstName   string
-	CreatedAt pgtype.Timestamp
-	UpdatedAt pgtype.Timestamp
-}
+
+
+

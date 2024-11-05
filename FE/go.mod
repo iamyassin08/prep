@@ -1,4 +1,4 @@
-module github.com/Nuri-Softworks/prep-app
+module github.com/iamyassin08/prep-app
 
 go 1.21
 

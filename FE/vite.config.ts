@@ -8,8 +8,8 @@ export default defineConfig({
   plugins: [
     vue(), 
     sentryVitePlugin({
-      org: "nuri-softworks",
-      project: "harmony-haul"
+      org: "iamyassin08",
+      project: "prep"
   })],
 
   server: {
@@ -18,7 +18,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '*': {
-        target: 'keycloak.yawmozer.io',
+        target: 'https://prep.com',
         ws: true,
         changeOrigin: true
       }

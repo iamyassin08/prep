@@ -11,138 +11,71 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const addUserCart = `-- name: AddUserCart :exec
-INSERT INTO profile_user_cart_items (user_id, profile_id, user_quantity)
-VALUES ($1, $2, $3)
+const createUser = `-- name: CreateUser :one
+INSERT INTO users (first_name, last_name, email)
+VALUES ($1, $2, $3) RETURNING id, first_name, last_name, email, created_at, updated_at
 `
 
-type AddUserCartParams struct {
-	UserID       int32
-	UserID       string
-	UserQuantity int32
+type CreateUserParams struct {
+	FirstName string
+	LastName  string
+	Email     string
 }
 
-func (q *Queries) AddUserCart(ctx context.Context, arg AddUserCartParams) error {
-	_, err := q.db.Exec(ctx, addUserCart, arg.UserID, arg.UserID, arg.UserQuantity)
-	return err
-}
-
-const addUserFavorite = `-- name: AddUserFavorite :exec
-INSERT INTO profile_user_favorites (user_id, profile_id)
-VALUES ($1, $2)
-`
-
-type AddUserFavoriteParams struct {
-	UserID int32
-	UserID string
-}
-
-func (q *Queries) AddUserFavorite(ctx context.Context, arg AddUserFavoriteParams) error {
-	_, err := q.db.Exec(ctx, addUserFavorite, arg.UserID, arg.UserID)
-	return err
-}
-
-const addUserProfile = `-- name: AddUserProfile :exec
-INSERT INTO profiles (id)
-VALUES ($1)
-`
-
-func (q *Queries) AddUserProfile(ctx context.Context, id string) error {
-	_, err := q.db.Exec(ctx, addUserProfile, id)
-	return err
-}
-
-const getUserInUserCart = `-- name: GetUserInUserCart :one
-SELECT user_id, profile_id, user_quantity, created_at FROM profile_user_cart_items
-WHERE user_id = $1 AND profile_id = $2
-`
-
-type GetUserInUserCartParams struct {
-	UserID int32
-	UserID string
-}
-
-func (q *Queries) GetUserInUserCart(ctx context.Context, arg GetUserInUserCartParams) (ProfileUserCartItem, error) {
-	row := q.db.QueryRow(ctx, getUserInUserCart, arg.UserID, arg.UserID)
-	var i ProfileUserCartItem
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
+	row := q.db.QueryRow(ctx, createUser,
+		arg.FirstName,
+		arg.LastName,
+		arg.Email,
+	)
+	var i User
 	err := row.Scan(
-		&i.UserID,
-		&i.UserID,
-		&i.UserQuantity,
-		&i.CreatedAt,
+		&i.ID,
+		&i.FirstName,
+		&i.LastName,
+		&i.Email,
+
 	)
 	return i, err
 }
 
-const getUserCartItems = `-- name: GetUserCartItems :many
-SELECT
-    users.id,
-    users.profile_id,
-    users.title,
-    users.short_description,
-    users.price,
-    profile_user_cart_items.user_quantity AS quantity
-FROM
-    users
-JOIN
-    profile_user_cart_items ON profile_user_cart_items.user_id = users.id
-WHERE 
-    profile_user_cart_items.profile_id = $1
+const deleteUser = `-- name: DeleteUser :exec
+DELETE FROM users
+WHERE id = $1
 `
 
-type GetUserCartItemsRow struct {
-	ID               int32
-	UserID        pgtype.Text
-	FirstName            string
-	ShortDescription pgtype.Text
-	Email             pgtype.Numeric
-	Quantity         int32
+func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
+	_, err := q.db.Exec(ctx, deleteUser, id)
+	return err
 }
 
-func (q *Queries) GetUserCartItems(ctx context.Context, profileID string) ([]GetUserCartItemsRow, error) {
-	rows, err := q.db.Query(ctx, getUserCartItems, profileID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []GetUserCartItemsRow
-	for rows.Next() {
-		var i GetUserCartItemsRow
-		if err := rows.Scan(
-			&i.ID,
-			&i.UserID,
-			&i.FirstName,
-			&i.ShortDescription,
-			&i.Email ,
-			&i.Quantity,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getUserFavorites = `-- name: GetUserFavorites :many
-
-SELECT
-    users.id, users.profile_id, users.title, users.description, users.short_description, users.price, users.quantity, users.discount_price, users.regular_price, users.created_at, users.updated_at, users.type
-FROM
-    users
-JOIN
-    profile_user_favorites ON profile_user_favorites.user_id = users.id
-WHERE 
-    profile_user_favorites.profile_id = $1
+const getUser = `-- name: GetUser :one
+SELECT id, first_name, last_name, email, created_at, updated_at
+FROM users
+WHERE id = $1 LIMIT 1
 `
 
-// -- name: GetUserFavorites :many
-// SELECT * FROM profile_user_favorites
-// WHERE profile_id = $1;
-func (q *Queries) GetUserFavorites(ctx context.Context, profileID string) ([]User, error) {
-	rows, err := q.db.Query(ctx, getUserFavorites, profileID)
+func (q *Queries) GetUser(ctx context.Context, id int32) (User, error) {
+	row := q.db.QueryRow(ctx, getUser, id)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.FirstName,
+		&i.LastName,
+		&i.Email,
+
+	)
+	return i, err
+}
+
+const listUsers = `-- name: ListUsers :many
+SELECT id, first_name, last_name, email, created_at, updated_at
+FROM users
+ORDER BY first_name
+`
+
+func (q *Queries) ListUsers(ctx context.Context) ([]User, error) {
+	rows, err := q.db.Query(ctx, listUsers)
 	if err != nil {
 		return nil, err
 	}
@@ -152,17 +85,10 @@ func (q *Queries) GetUserFavorites(ctx context.Context, profileID string) ([]Use
 		var i User
 		if err := rows.Scan(
 			&i.ID,
-			&i.UserID,
 			&i.FirstName,
-			&i.Description,
-			&i.ShortDescription,
-			&i.Email ,
-			&i.Quantity,
-			&i.DiscountEmail ,
-			&i.LastName ,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.Type,
+			&i.LastName,
+			&i.Email,
+		
 		); err != nil {
 			return nil, err
 		}
@@ -174,67 +100,25 @@ func (q *Queries) GetUserFavorites(ctx context.Context, profileID string) ([]Use
 	return items, nil
 }
 
-const getUserProfile = `-- name: GetUserProfile :one
-SELECT id, created_at, thumbnail_url, email, username FROM profiles
-WHERE id = $1 LIMIT 1
+const updateUser = `-- name: UpdateUser :exec
+UPDATE users
+SET first_name = $1, last_name = $2, email = $3, updated_at = CURRENT_TIMESTAMP
+WHERE id = $4
 `
 
-func (q *Queries) GetUserProfile(ctx context.Context, id string) (Profile, error) {
-	row := q.db.QueryRow(ctx, getUserProfile, id)
-	var i Profile
-	err := row.Scan(
-		&i.ID,
-		&i.CreatedAt,
-		&i.ThumbnailUrl,
-		&i.Email,
-		&i.Username,
+type UpdateUserParams struct {
+	FirstName string
+	LastName  string
+	Email     string
+	ID        int32
+}
+
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
+	_, err := q.db.Exec(ctx, updateUser,
+		arg.FirstName,
+		arg.LastName,
+		arg.Email,
+		arg.ID,
 	)
-	return i, err
-}
-
-const removeUserCart = `-- name: RemoveUserCart :exec
-DELETE FROM profile_user_cart_items
-WHERE user_id = $1 AND profile_id = $2
-`
-
-type RemoveUserCartParams struct {
-	UserID int32
-	UserID string
-}
-
-func (q *Queries) RemoveUserCart(ctx context.Context, arg RemoveUserCartParams) error {
-	_, err := q.db.Exec(ctx, removeUserCart, arg.UserID, arg.UserID)
-	return err
-}
-
-const removeUserfavorite = `-- name: RemoveUserfavorite :exec
-DELETE FROM profile_user_favorites
-WHERE user_id = $1 AND profile_id = $2
-`
-
-type RemoveUserfavoriteParams struct {
-	UserID int32
-	UserID string
-}
-
-func (q *Queries) RemoveUserfavorite(ctx context.Context, arg RemoveUserfavoriteParams) error {
-	_, err := q.db.Exec(ctx, removeUserfavorite, arg.UserID, arg.UserID)
-	return err
-}
-
-const updateUserCartQuantity = `-- name: UpdateUserCartQuantity :exec
-UPDATE profile_user_cart_items
-SET user_quantity = $1
-WHERE user_id = $2 AND profile_id = $3
-`
-
-type UpdateUserCartQuantityParams struct {
-	UserQuantity int32
-	UserID       int32
-	UserID       string
-}
-
-func (q *Queries) UpdateUserCartQuantity(ctx context.Context, arg UpdateUserCartQuantityParams) error {
-	_, err := q.db.Exec(ctx, updateUserCartQuantity, arg.UserQuantity, arg.UserID, arg.UserID)
 	return err
 }

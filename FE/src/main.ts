@@ -7,17 +7,11 @@ import * as Sentry from "@sentry/vue";
 import App from "./App.vue";
 import router from "./router";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-// import UserAuthStorePlugin from './plugins/authStore';
 import {MotionPlugin} from '@vueuse/motion'
 const pinia = createPinia();
 const useSentry = import.meta.env.VITE_SENTRY_URL ?? ""
 pinia.use(piniaPluginPersistedstate);
 
-const options = {
-  url: import.meta.env.VITE_KEYCLOAK_URL,
-  clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
-  realm: import.meta.env.VITE_KEYCLOAK_REALM,
-};
 
 const renderApp = () => {
   const app = createApp(App);

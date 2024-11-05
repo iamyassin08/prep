@@ -4,7 +4,7 @@ deployment:
   replicas: 1
   appFirstName: prep-app
   hostnames: 
-    - prep-app-dev.nuri-sw.com
+    - prep-app-dev.iamyassin.com
   # tlsHosts:
   #   - "dev-aa.yawmzero.io"
   #   - "dev-ra.yawmzero.io"

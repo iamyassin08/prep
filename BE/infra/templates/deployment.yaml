@@ -21,24 +21,6 @@ spec:
         - image: {{ .Values.deployment.image.name }}:{{ .Values.deployment.image.tag }}
           name: {{ .Values.deployment.appFirstName }}
           env:
-            - name: MINIO_ENDPOINT
-              value: s3-api.nuri-sw.com
-            - name: MINIO_ACCESS_KEY
-              value: aeeePQQZKC7QuZxNrPf9
-            - name: MINIO_BUCKET
-              value: prep-bucket
-            - name: MINIO_SECRET_ACCESS_KEY
-              value: VZLLV8fBUAu7e7V9KHXv4HJgRQDiyaeBjJs0Ge3W
-            - name: KEYCLOAK_BASE_URL
-              value: https://keycloak.yawmzero.io/
-            - name: KEYCLOAK_REALM
-              value: nuri-dev
-            - name: KEYCLOAK_CLIENT_ID
-              value: prep
-            - name: KEYCLOAK_CLIENT_SECRET
-              value: 3vtmaiZlhfRmpFuaedNSgzhwhXRWQL9s
-            - name: KEYCLOAK_REALM_RS256_PUBLIC_KEY
-              value: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmwa/yF3qiUI5K0EhwFx4Fr4pFeKqXaQVOwrSqp/FVwLz9n1htMCQAsNiQ0+FgncvQ5K7SojyACHX3/yNza/DIVstbR964wfsqRyfc76O7daPVUYuIL+QsDsJYKsYcaYpfRqlL2iygwQ5y+ABpa9QUCUYsR310yuXSdlihlYVxq8hPsfSszqyAanWFgeMeaetZGT26n6kn+amHUGMe6SZ2pJ8LPiKCV+IUkjlfjwvdr61hwwXO4DllaDKU2uVo08sti/X2LB8YhQg7+eU97NR9W+s/VjyxoIP+JzmItwDIf9MJkkb3hWS+mC9WPVA6wym5XYQy3vI1UpcL8rEek4rtQIDAQAB"
             - name: TZ
               value: America/Chicago
             - name: PREP_DB_NAME
