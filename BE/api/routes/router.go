@@ -12,9 +12,9 @@ func InitPublicRoutes(app *fiber.App) {
 	// apiHandler := &handler.ApiHandler{queries: db.DB}
 	apihandler := handler.ApiHandler{}
 	docs.SwaggerInfo.BasePath = "/api/v1"
+
 	public := app.Group("/")
 	{
-
 		public.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 		// User-related routes (as per the request)
@@ -23,14 +23,5 @@ func InitPublicRoutes(app *fiber.App) {
 		public.Post("/api/v1/users", apihandler.CreateUser)
 		public.Patch("/api/v1/users/:id", apihandler.UpdateUser)
 		public.Delete("/api/v1/users/:id", apihandler.DeleteUser)
-	}
-}
-
-func InitProtectedRoutes(app *fiber.App) {
-	apihandler := handler.ApiHandler{}
-	general := app.Group("/api/v1")
-
-	{
-		general.Get("/user/:id", apihandler.ServeUser)
 	}
 }

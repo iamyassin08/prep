@@ -9,11 +9,6 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
-      # - PREP_DB_NAME=prep
-      # - PREP_DB_USER=prep
-      # - PREP_DB_PASS=prep
-      # - PREP_DB_HOST=db
-      # - PREP_DB_PORT=5432
       - GOOSE_DRIVER=sqlite3                                
       - GOOSE_DBSTRING=./app.db
       - GOOSE_MIGRATION_DIR=./sqlite/migration
@@ -38,28 +33,3 @@ services:
       # - /etc/localtime:/etc/localtime:ro
     ports:
       - 8081:8080
-    # depends_on:
-    #  - db
-  # db:
-  #   container_name: prep_db
-  #   image: postgres:14
-  #   restart: always
-  #   ports:
-  #     - 5432:5432
-  #   environment:
-  #     - POSTGRES_USER=prep
-  #     - POSTGRES_PASSWORD=prep
-  #     - POSTGRES_DB=prep
-  #   # deploy:
-  #   #   resources:
-  #   #     limits:
-  #   #       cpus: '1'
-  #   #       memory: 512M
-  #   #     reservations:
-  #   #       cpus: '0.1'
-  #   #       memory: 128M
-
-  #   # networks:
-  #   #   - custom
-  #   volumes:
-  #     - db:/var/lib/postgresql/data

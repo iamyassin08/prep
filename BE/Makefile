@@ -4,6 +4,11 @@ start:
 	swag init --parseDependency github.com/volatiletech/null/v8
 	swag fmt
 	air -c .air.toml
+start-test:
+	swag init --parseDependency github.com/volatiletech/null/v8
+	swag fmt
+	go build -buildvcs=false -o ./tmp/main .
+
 
 .PHONY: vet
 vet: 
