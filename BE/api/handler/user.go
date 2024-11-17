@@ -16,11 +16,20 @@ type UserReq struct {
 	Email     string `json:"Email"`
 }
 
-type ApiHandler struct {
-}
-
 type UserRes struct {
 	db.User
+}
+
+// ApiHandler holds dependencies for the handler
+type ApiHandler struct {
+	queries *db.Queries
+}
+
+// NewApiHandler creates a new API handler with the given dependencies
+func NewApiHandler(queries *db.Queries) *ApiHandler {
+	return &ApiHandler{
+		queries: queries,
+	}
 }
 
 // Populate user parameters for creation and update
@@ -54,7 +63,9 @@ func updateUserHelper(user UserReq) (db.UpdateUserParams, error) {
 }
 
 //	@BasePath		/api/v1
+//
 // GetUser godoc
+//
 //	@Param			id	path	int	true	"User ID"
 //	@Security		ApiKeyAuth
 //	@param			Authorization	header	string	false	"Authorization"
@@ -72,7 +83,7 @@ func (h *ApiHandler) ServeUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
 	}
 
-	user, err := db.DB.GetUser(c.Context(), int32(iD))
+	user, err := h.queries.GetUser(c.Context(), int64(iD))
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
 	}
@@ -81,7 +92,9 @@ func (h *ApiHandler) ServeUser(c *fiber.Ctx) error {
 }
 
 //	@BasePath		/api/v1
+//
 // ListUsers godoc
+//
 //	@Summary		List Users
 //	@Description	Get All Users in DB
 //	@Tags			User
@@ -90,21 +103,23 @@ func (h *ApiHandler) ServeUser(c *fiber.Ctx) error {
 //	@Success		200	{array}	UserRes
 //	@Router			/users [get]
 func (h *ApiHandler) ListUsers(c *fiber.Ctx) error {
-	users, err := db.DB.ListUsers(c.Context())
+	users, err := h.queries.ListUsers(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	userRes := []UserRes{}
-	for _, user := range users {
-		userRes = append(userRes, UserRes{User: user})
+	userRes := make([]UserRes, len(users))
+	for i, user := range users {
+		userRes[i] = UserRes{User: user}
 	}
 
 	return c.Status(fiber.StatusOK).JSON(userRes)
 }
 
 //	@BasePath		/api/v1
+//
 // UpdateUser godoc
+//
 //	@Param			id	path	int	true	"User ID"
 //	@Security		ApiKeyAuth
 //	@param			Authorization	header	string	false	"Authorization"
@@ -133,8 +148,8 @@ func (h *ApiHandler) UpdateUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	userArg.ID = int32(iD) // Ensure ID is properly set
-	err = db.DB.UpdateUser(c.Context(), userArg)
+	userArg.ID = int64(iD)
+	err = h.queries.UpdateUser(c.Context(), userArg)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to update user"})
 	}
@@ -143,7 +158,9 @@ func (h *ApiHandler) UpdateUser(c *fiber.Ctx) error {
 }
 
 //	@BasePath		/api/v1
+//
 // DeleteUser godoc
+//
 //	@Param			id	path	int	true	"User ID"
 //	@Security		ApiKeyAuth
 //	@param			Authorization	header	string	false	"Authorization"
@@ -161,7 +178,7 @@ func (h *ApiHandler) DeleteUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID"})
 	}
 
-	err = db.DB.DeleteUser(c.Context(), int32(iD))
+	err = h.queries.DeleteUser(c.Context(), int64(iD))
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to delete user"})
 	}
@@ -170,7 +187,9 @@ func (h *ApiHandler) DeleteUser(c *fiber.Ctx) error {
 }
 
 //	@BasePath		/api/v1
+//
 // CreateUser godoc
+//
 //	@Param			user	body	UserReq	true	"Create User Params"
 //	@Security		ApiKeyAuth
 //	@param			Authorization	header	string	false	"Authorization"
@@ -187,14 +206,12 @@ func (h *ApiHandler) CreateUser(c *fiber.Ctx) error {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": "Could not parse JSON body"})
 	}
 
-	// Create user parameters
 	userArg, err := createUserHelper(userReq)
 	if err != nil {
 		return c.Status(http.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	// Call the database function to create the user
-	newUser, err := db.DB.CreateUser(c.Context(), userArg)
+	newUser, err := h.queries.CreateUser(c.Context(), userArg)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create user"})
 	}
