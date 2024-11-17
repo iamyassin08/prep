@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -8,52 +9,74 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/iamyassin08/prep/db" // Ensure this import matches your module
+	"github.com/iamyassin08/prep/api/routes"
+	"github.com/iamyassin08/prep/db"
 	_ "github.com/mattn/go-sqlite3"
 )
+
+// App holds all application-level dependencies
+type App struct {
+	db    *db.Queries
+	fiber *fiber.App
+}
 
 func main() {
 	// Seed the random number generator
 	rand.Seed(time.Now().UnixNano())
 
-	app := fiber.New(fiber.Config{
+	// Initialize Fiber
+	fiberApp := fiber.New(fiber.Config{
 		StreamRequestBody: true,
 		AppName:           "Prep",
 		ServerHeader:      "Fiber",
 	})
-	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-	}))
+	// fiberApp.Use(cors.New(cors.Config{
+	// 	AllowOrigins: "*",
+	// }))
+	routes.InitPublicRoutes(fiberApp)
 
-	// Connect to SQLite database
-	dB, err := sql.Open("sqlite3", "tmp/app.db")
+	// Initialize routes
+	// Initialize database connection
+	dbConn, err := sql.Open("sqlite3", "tmp/app.db")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer dB.Close()
+	defer dbConn.Close()
 
-	// Initialize the global DB variable with the Queries instance
-	db.DB = db.New(dB)
+	// Initialize queries
+	queries := db.New(dbConn)
+	defer queries.Close()
 
-	// Create random users
-	createRandomUsers(dB, 10)
+	// // Create random users
+	// if err := app.createRandomUsers(10); err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	log.Fatal(app.Listen(":8080"))
+	// Start the server
+	log.Fatal(fiberApp.Listen(":8080"))
 }
-
-func createRandomUsers(db *sql.DB, n int) {
+func (a *App) createRandomUsers(n int) error {
 	firstNames := []string{"John", "Jane", "Alice", "Bob", "Charlie", "Diana", "Eva", "Frank", "Grace", "Henry"}
 	lastNames := []string{"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"}
+
+	ctx := context.Background()
 
 	for i := 0; i < n; i++ {
 		firstName := firstNames[rand.Intn(len(firstNames))]
 		lastName := lastNames[rand.Intn(len(lastNames))]
 		email := fmt.Sprintf("%s.%s@example.com", firstName, lastName)
 
-		_, err := db.Exec("INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?)", firstName, lastName, email)
+		// Using the CreateUser method from your generated sqlc code
+		// Note: You'll need to adjust this based on your actual CreateUser parameters
+		_, err := a.db.CreateUser(ctx, db.CreateUserParams{
+			FirstName: firstName,
+			LastName:  lastName,
+			Email:     email,
+		})
 		if err != nil {
-			log.Fatal(err)
+			return fmt.Errorf("error creating user: %w", err)
 		}
 	}
+
+	return nil
 }
